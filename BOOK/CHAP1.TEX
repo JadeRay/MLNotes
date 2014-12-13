@@ -1,0 +1,104 @@
+\chapter{绪论}
+\thispagestyle{empty}
+
+\setlength{\fboxrule}{1pt}\setlength{\fboxsep}{4pt}
+%\setlength{\fboxrule}{0pt}\setlength{\fboxsep}{0cm}
+%\shadowbox{
+%\begin{tcolorbox}[arc=0mm,colback=white,colframe=darkblue,title=学习目标与要求]
+%\kai\textcolor{darkblue}{1.~~了解科学计算的一般过程．}\\
+%\kai\textcolor{darkblue}{2.~~了解数值计算方法的研究内容和特点．}\\
+%\kai\textcolor{darkblue}{3.~~理解数值计算误差的有关概念．}\\
+%\kai\textcolor{darkblue}{4.~~掌握数值计算误差的控制方法．}
+%\end{tcolorbox}}
+%\setlength{\fboxrule}{1pt}\setlength{\fboxsep}{4pt}
+
+\section{梯度下降法（gradient descent）}
+
+\subsection{批处理梯度下降法（batch gradient descent）}
+
+\subsection{随机梯度下降法（stochastic gradient descent）}
+
+\section{矩阵分析（matrix analysis）}
+\subsection{矩阵导数(matrix derivatives)}
+令$f:\mathbb{R}^{m\times n}\mapsto \mathbb{R}$表示将$m\times n$（$m$-by-$n$）矩阵映射为实数的函数。定义$f$对矩阵$\bm{A}$的导数
+$$\nabla_{\bm{A}}f(\bm{A})=\begin{pmatrix}
+                            \noalign{\vskip2pt}
+                            \frac{\partial f(\bm{A})}{\partial a_{11}} & \cdots &  \frac{\partial f(\bm{A})}{\partial a_{1n}}\\
+                            \noalign{\vskip4pt}
+                            \vdots & \ddots &\vdots \\
+                            \noalign{\vskip8pt}
+                            \frac{\partial f(\bm{A})}{\partial a_{n1}} & \cdots & \frac{\partial f(\bm{A})}{\partial a_{nn}}\\
+                            \noalign{\vskip2pt}
+                            \end{pmatrix}
+$$
+
+
+矩阵的迹（trace）表示的是矩阵的对角元素的和，
+$$tr\bm{A}=\sum_{i=1}^{n}a_{ii}$$
+假设$A$，$B$，$C$，$D$均是方阵
+\begin{equation}
+trABCD=trDABC=trCDAB=trBCDA
+\end{equation}
+循环将最右边矩阵放到最左边。假设$a$是实数
+\begin{align}
+trA &= trA^T\\
+tr(A+B) &= trA+trB\\
+traA&=atrA
+\end{align}
+下面的一些公式出自Andrew Ng的机器学习讲义，这里证明一下。
+\begin{align}
+\nabla_AtrAB &= B^T\\
+\nabla_{A^T}f(A) &= (\nabla_Af(A))^T\\
+\nabla_{A}trABA^TC &= CAB+C^TAB^T\\
+\nabla_{A}|A|&=|A|(A^{-1})^T
+\end{align}
+\proof
+(1)\qquad $(\nabla_AtrAB)_{ij}=\frac{\partial trAB}{\partial a_{ij}}=\frac{\partial \sum_m\sum_ka_{mk}b_{km}}{\partial a_{ij}}$，只有当$m=i,k=j$时才有$a_{ij}$的系数，所以$(\nabla_AtrAB)_{ij}=b_{ji}$，即证。
+
+(2)\qquad $(\nabla_{A^T}f(A))_{ij}=\frac{\partial f(A)}{\partial a_{ji}}$，即证。
+
+(3)\qquad $trABA^TC=\sum_m\sum_k\sum_t\sum_s a_{mk}b_{kt}a_{st}c_{sm}$，所以
+\begin{align}
+(\nabla_{A}trABA^TC)_{ij} &= \frac{\partial \sum_m\sum_k\sum_t\sum_s a_{mk}b_{kt}a_{st}c_{sm}}{\partial a_{ij}} \notag \\
+&=\sum_m\sum_k\sum_t\sum_s \frac{\partial a_{mk}}{\partial a_{ij}}b_{kt}a_{st}c_{sm}+
+\sum_m\sum_k\sum_t\sum_s a_{mk}b_{kt}\frac{\partial a_{st}}{\partial a_{ij}}c_{sm} \notag
+\end{align}
+左边，令$m=i,k=j$，右边，令$s=i, t=j$，
+\begin{align}
+(\nabla_{A}trABA^TC)_{ij} 
+&=\sum_t\sum_s b_{jt}a_{st}c_{si}+\sum_m\sum_k a_{mk}b_{kj}c_{im} \notag\\
+&=\sum_t\sum_s b_{jt}a_{st}c_{si}+\sum_m\sum_k c_{im}a_{mk}b_{kj} \notag\\
+&=(BA^TC)_{ji}+(CAB)_{ij} \notag\\
+&=(C^TAB^T+CAB)_{ij}\notag
+\end{align}
+\section{非线性规划}
+
+\section{泛函分析}
+
+\section{常用不等式}
+\subsection{柯西不等式（Cauchy Inequality）}
+柯西不等式，又称柯西-施瓦茨不等式（Cauchy-Schwarz inequality）。对于一个内积空间所有向量$\bm{x}$和$\bm{y}$，
+$$|\langle \bm{x},\bm{y} \rangle|^2 \le \langle\bm{x}, \bm{x} \rangle\cdot\langle\bm{y}, \bm{y}\rangle$$
+其中$\langle\cdot, \cdot\rangle$表示内积（点积），当且仅当$\bm{x}$与$\bm{y}$线性相关时等式成立。
+
+对于欧几里得空间$\mathbb{R}^2$，
+$$(\sum_{i=1}^{n}x_iy_i)^2 \le (\sum_{i=1}^{n}x_i^2)(\sum_{i=1}^{n}y_i^2)$$
+当且仅当$\frac{x_1}{y_1}=\frac{x_2}{y_2}=\cdots=\frac{x_n}{y_n}$时等式成立。
+
+\subsection{赫尔德不等式（H$\ddot{o}$lder Inequality）}
+赫尔德不等式揭示了$L^p$空间的相互关系。设$S$为测度空间，$1\le p,q \le \inf$，且$\frac{1}{p}+\frac{1}{q}=1$，若$f \in L^p(S)$，$g \in L^q(S)$，则$fg\in L^1(S)$，且
+$$\parallel fg \parallel_1 \le \parallel f \parallel_p \parallel g \parallel_q$$
+
+
+写成序列或向量的形式
+$$\sum_{i=1}^{n}|a_ib_i| \le (\sum_{i=1}^{n}|a_i|^p)^{\frac{1}{p}}(\sum_{i=1}^{n}|b_i|^q)^{\frac{1}{q}}$$
+
+\subsection{闵可夫斯基不等式（Minkowski Inequality）}
+闵可夫斯基不等式表明$L^p$空间是一个赋范向量空间。设$S$是一个度量空间，$f,g \in L^p(S), 1\le p \le \inf$，那么$f+g \in L^p(S)$，有
+$$\parallel f+g \parallel_p \le \parallel f \parallel_p + \parallel g \parallel_p$$
+
+写成序列或向量的形式
+$$(\sum_{k=1}^n|x_k+y_k|^p)^{\frac{1}{p}} \le (\sum_{k=1}^n|x_k|^p)^{\frac{1}{p}}(\sum_{k=1}^{n}|y_k|^p)^{\frac{1}{p}}$$
+
+
+ 

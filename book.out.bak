@@ -1,0 +1,29 @@
+\BOOKMARK [0][-]{chapter.1}{ 第1章 绪论}{}% 1
+\BOOKMARK [1][-]{section.1.1}{1.1 梯度下降法（gradient descent）}{chapter.1}% 2
+\BOOKMARK [2][-]{subsection.1.1.1}{1.1.1 批处理梯度下降法（batch gradient descent）}{section.1.1}% 3
+\BOOKMARK [2][-]{subsection.1.1.2}{1.1.2 随机梯度下降法（stochastic gradient descent）}{section.1.1}% 4
+\BOOKMARK [1][-]{section.1.2}{1.2 矩阵分析（matrix analysis）}{chapter.1}% 5
+\BOOKMARK [2][-]{subsection.1.2.1}{1.2.1 矩阵导数\(matrix derivatives\)}{section.1.2}% 6
+\BOOKMARK [1][-]{section.1.3}{1.3 非线性规划}{chapter.1}% 7
+\BOOKMARK [1][-]{section.1.4}{1.4 泛函分析}{chapter.1}% 8
+\BOOKMARK [1][-]{section.1.5}{1.5 常用不等式}{chapter.1}% 9
+\BOOKMARK [2][-]{subsection.1.5.1}{1.5.1 柯西不等式（Cauchy Inequality）}{section.1.5}% 10
+\BOOKMARK [2][-]{subsection.1.5.2}{1.5.2 赫尔德不等式（Hlder Inequality）}{section.1.5}% 11
+\BOOKMARK [2][-]{subsection.1.5.3}{1.5.3 闵可夫斯基不等式（Minkowski Inequality）}{section.1.5}% 12
+\BOOKMARK [0][-]{chapter.2}{ 第2章 感知机}{}% 13
+\BOOKMARK [1][-]{section.2.1}{2.1 模型}{chapter.2}% 14
+\BOOKMARK [1][-]{section.2.2}{2.2 策略}{chapter.2}% 15
+\BOOKMARK [1][-]{section.2.3}{2.3 算法}{chapter.2}% 16
+\BOOKMARK [0][-]{chapter.3}{ 第3章 K近邻}{}% 17
+\BOOKMARK [1][-]{section.3.1}{3.1 模型}{chapter.3}% 18
+\BOOKMARK [1][-]{section.3.2}{3.2 策略}{chapter.3}% 19
+\BOOKMARK [1][-]{section.3.3}{3.3 算法}{chapter.3}% 20
+\BOOKMARK [0][-]{chapter.4}{ 第4章 朴素贝叶斯法}{}% 21
+\BOOKMARK [0][-]{chapter.5}{ 第5章 决策树}{}% 22
+\BOOKMARK [0][-]{chapter.6}{ 第6章 逻辑斯谛回归和最大熵}{}% 23
+\BOOKMARK [0][-]{chapter.7}{ 第7章 支持向量机}{}% 24
+\BOOKMARK [0][-]{chapter.8}{ 第8章 提升方法}{}% 25
+\BOOKMARK [0][-]{chapter.9}{ 第9章 EM方法}{}% 26
+\BOOKMARK [1][-]{section.9.1}{9.1 Jensen不等式}{chapter.9}% 27
+\BOOKMARK [0][-]{chapter.10}{ 第10章 隐马尔可夫模型}{}% 28
+\BOOKMARK [0][-]{chapter*.2}{ 参考文献}{}% 29
