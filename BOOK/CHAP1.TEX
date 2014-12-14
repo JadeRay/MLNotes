@@ -13,10 +13,16 @@
 %\setlength{\fboxrule}{1pt}\setlength{\fboxsep}{4pt}
 
 \section{梯度下降法（gradient descent）}
+梯度下降法或者最速下降法（steepest descent）是求解无约束最优化问题的方法。特点是实现起来比较简单。其原理是如果函数$f(x)$在点$a$处可微且有定义，那么函数$f(x)$在$a$点沿着梯度的反方向，即$-\nabla f(a)$，下降最快。
 
-\subsection{批处理梯度下降法（batch gradient descent）}
+所以，可以从一个初始值$x_0$出发，沿梯度反方向迭代的更新解。如下
+$$x_{n+1} = x_n - \alpha\nabla f(x_n)$$
+直到$x_n$的值不再发生变化，或者变化很小，此时，$x_n$等于或者接近$f(x)$的极小值。$\alpha$称为学习率（learning rate）。$\alpha$值过大，可能会在最小值附近振荡。$\alpha$值过小，可能学习的时间比较长。同时，$\alpha$值的选取可以是预先设定的固定值，也可以是根据解更新的情况变化的值。
 
-\subsection{随机梯度下降法（stochastic gradient descent）}
+
+梯度下降法的一个问题在于，能否得到最优解取决于初始值的选取。
+
+
 
 \section{矩阵分析（matrix analysis）}
 \subsection{矩阵导数(matrix derivatives)}
@@ -65,7 +71,7 @@ traA&=atrA
 \end{align}
 左边，令$m=i,k=j$，右边，令$s=i, t=j$，
 \begin{align}
-(\nabla_{A}trABA^TC)_{ij} 
+(\nabla_{A}trABA^TC)_{ij}
 &=\sum_t\sum_s b_{jt}a_{st}c_{si}+\sum_m\sum_k a_{mk}b_{kj}c_{im} \notag\\
 &=\sum_t\sum_s b_{jt}a_{st}c_{si}+\sum_m\sum_k c_{im}a_{mk}b_{kj} \notag\\
 &=(BA^TC)_{ji}+(CAB)_{ij} \notag\\
@@ -101,4 +107,4 @@ $$\parallel f+g \parallel_p \le \parallel f \parallel_p + \parallel g \parallel_
 $$(\sum_{k=1}^n|x_k+y_k|^p)^{\frac{1}{p}} \le (\sum_{k=1}^n|x_k|^p)^{\frac{1}{p}}(\sum_{k=1}^{n}|y_k|^p)^{\frac{1}{p}}$$
 
 
- 
+

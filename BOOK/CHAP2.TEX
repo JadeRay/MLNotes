@@ -1,13 +1,75 @@
-\chapter{感知机}
+\chapter{回归分析}
 \thispagestyle{empty}
 
 \setlength{\fboxrule}{1pt}\setlength{\fboxsep}{4pt}
 
 
-\section{模型}
+%\section{模型}
+给定数据集
+    $$T=\{(x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \cdots, (x^{(m)}, y^{(m)})\},$$
+    其中，$x^{(i)}=(x_0, x_1, \cdots, x_n) \in \mathcal{X} = \mathbb{R}^{n+1}$，$y^{(i)} \in \mathcal{Y}$, $i=0,2,\cdots, m$，且$x_0=1$ （表示截距，intercept term）。回归分析的任务是找出输入$x$ 与输出$y$之间的关系。
 
+\section{线性回归}
+假设输入与输出之间满足的关系是线性的，$theta$称为参数（parameters）或者权重（weights）
+    $$y=h_{\theta}(x)={\theta}^Tx=\sum_{i=0}^{n}\theta_ix_i, \qquad \theta \in \mathbb{R}^{n+1}$$
+    
+对于这个模型，需要有一个损失函数（cost function）来表示其对训练数据的拟合程度
+    $$J(\theta)=\frac{1}{2}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})^2.$$
+这个被称为最小二乘方效用函数（least-square cost function）。
 
-\section{策略}
+则这个问题的求解可以表述为如下的无约束最优化问题
+$$\mathop{\min}\limits_\theta J(\theta)$$
 
-\section{算法}
+\subsection{直接求解}
+直接求$J(\theta)$对$\theta$的极值。首先定义设计矩阵（design matrix）$X$
+\begin{align}
+X&=\begin{bmatrix}(x^{(1)})^T & (x^{(2)})^T & \cdots & (x^{(m)})^T \end{bmatrix}^T  \notag \\
+Y&=\begin{bmatrix}y^{(1)} & y^{(2)} & \cdots & y^{(m)} \end{bmatrix}^T  \notag
+\end{align}    
+则有
+$$
+X\theta - Y = \begin{bmatrix}h_{\theta}(x^{(1)})-y^{(1)} & \cdots & h_{\theta}(x^{(m)})-y^{(m)}\end{bmatrix}^T
+$$
+考虑到$z^Tz=\sum_iz_i^2$，有
+$$
+J(\theta)=\frac{1}{2}(X\theta-Y)^T(X\theta-Y)=\frac{1}{2}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})^2
+$$
+
+使用公式$\nabla_{A}trABA^TC = CAB+C^TAB^T$，且由于$J(\theta)$只是个实数，所以
+\begin{align}
+\nabla_{\theta}J(\theta)&=\nabla_{\theta}trJ(\theta) \notag\\
+&=X^TX\theta-X^TY \notag
+\end{align}
+令$\nabla_{\theta}J(\theta)=0$得到
+$$\theta=(X^TX)^{-1}X^TY$$
+
+不过，这个公式用来直接计算$\theta$不现实，因为矩阵求逆比较麻烦，同时可能会是数值不稳定的矩阵。
+\subsection{批处理梯度下降法（batch gradient descent）}
+$J(\theta)$对$\theta$的梯度
+$$\frac{\partial J(\theta)}{\partial \theta}=\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x^{(i)}$$
+所以，更新公式为
+\begin{align}
+\theta_{n+1} &= \theta_n - \alpha\frac{\partial J(\theta)}{\partial \theta} \notag \\
+&=\theta_n - \alpha \sum_{i=1}^{m}(h_{\theta_n}(x^{(i)})-y^{(i)})x^{(i)} \notag
+\end{align}
+这个公式更新时每次都需要全部的训练数据集，所以称之为批处理梯度下降法。当数据集比较大时，进行一次更新就比较耗费时间。
+\subsection{随机梯度下降法（stochastic gradient descent）}
+随机梯度下降法，也称增量梯度下降（incremental gradient descent），一次使用一条训练数据来更新参数。算法如下
+$$\theta := \theta - \alpha(h_{\theta}(x^{(i)})-y^{(i)})x^{(i)}, i=1,2,\cdots, m$$
+随机梯度下降法更新的速度比梯度下降法快，但可能收敛不到最优值，不过通过调节学习率可以使得算法得到较好的解。
+
+\section{局部加权线性回归（LWR）}
+线性回归的方法是参数学习算法（parametric learning algorithm），其参数的个数，即特征的个数是固定的，一旦算法学习完成，训练数据集就不再对参数产生影响。但是，当选取的参数过多时，可能存在过拟合问题，而当选取的参数过少时，存在欠拟合问题。局部加权线性回归（local weighted linear regression， LWR）是一种非参学习算法（non-parametric learning algorithm），其参数是随着预测点的不同而发生变化的，每有一个新的预测点，就需要整个训练数据集重新参与学习。所谓局部，是因为目标函数的逼近仅仅根据查询点附近的数据。所谓加权，是因为每个训练样例的贡献都是由它与查询点间的距离加权的。而回归是指数值逼近的方法。
+
+线性回归的优化目标是
+$$\mathop{\min}\limits_\theta \sum_{i=1}^{m}(\theta^T x^{(i)}-y^{(i)})^2$$
+而LWR的优化目标是在上述公式上增加一个距离乘法项
+$$\mathop{\min}\limits_\theta \sum_{i=1}^{m}w^{(i)}(\theta^T x^{(i)}-y^{(i)})^2$$
+一个相对标准的权重选择是
+$$w^{(i)}=exp(-\frac{(x^{(i)}-x)^2}{2\tau^2})$$
+其中，$x$是要预测的输入数据，$\tau$称为带宽（bandwidth）。权重项使得离输入数据$x$越近的点影响越大。
+
+非参数学习算法在局部预测能力上有时要比参数学习算法好，但是缺点是每次做预测都要重新学习，耗费时间空间。
+\section{逻辑斯蒂回归}
+
 
