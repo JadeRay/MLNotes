@@ -13,16 +13,25 @@
 %\setlength{\fboxrule}{1pt}\setlength{\fboxsep}{4pt}
 
 \section{梯度下降法（gradient descent）}
+梯度下降法或者最速下降法（steepest descent）是求解无约束最优化问题的方法。特点是实现起来比较简单。其原理是如果函数$f(x)$在点$a$处可微且有定义，那么函数$f(x)$在$a$点沿着梯度的反方向，即$-\nabla f(a)$，下降最快。
 
-\subsection{批处理梯度下降法（batch gradient descent）}
+所以，可以从一个初始值$x_0$出发，沿梯度反方向迭代的更新解。如下
+$$x_{n+1} = x_n - \alpha\nabla f(x_n)$$
+直到$x_n$的值不再发生变化，或者变化很小，此时，$x_n$等于或者接近$f(x)$的极小值。$\alpha$称为学习率（learning rate）。$\alpha$值过大，可能会在最小值附近振荡。$\alpha$值过小，可能学习的时间比较长。同时，$\alpha$值的选取可以是预先设定的固定值，也可以是根据解更新的情况变化的值。
 
-\subsection{随机梯度下降法（stochastic gradient descent）}
+
+梯度下降法的一个问题在于，能否得到最优解取决于初始值的选取。
+
+\section{牛顿法和拟牛顿法}
+\subsection{牛顿法（Newton Method）}
+
+\subsection{拟牛顿法（Quasi Newton Method）}
 
 \section{矩阵分析（matrix analysis）}
 \subsection{矩阵导数(matrix derivatives)}
 令$f:\mathbb{R}^{m\times n}\mapsto \mathbb{R}$表示将$m\times n$（$m$-by-$n$）矩阵映射为实数的函数。定义$f$对矩阵$\bm{A}$的导数
 $$\nabla_{\bm{A}}f(\bm{A})=\begin{pmatrix}
-                            \noalign{vskip2pt}
+                            \noalign{\vskip2pt}
                             \frac{\partial f(\bm{A})}{\partial a_{11}} & \cdots &  \frac{\partial f(\bm{A})}{\partial a_{1n}}\\
                             \noalign{\vskip4pt}
                             \vdots & \ddots &\vdots \\
@@ -32,6 +41,45 @@ $$\nabla_{\bm{A}}f(\bm{A})=\begin{pmatrix}
                             \end{pmatrix}
 $$
 
+
+矩阵的迹（trace）表示的是矩阵的对角元素的和，
+$$tr\bm{A}=\sum_{i=1}^{n}a_{ii}$$
+假设$A$，$B$，$C$，$D$均是方阵
+\begin{equation}
+trABCD=trDABC=trCDAB=trBCDA
+\end{equation}
+循环将最右边矩阵放到最左边。假设$a$是实数
+\begin{align}
+trA &= trA^T\\
+tr(A+B) &= trA+trB\\
+traA&=atrA
+\end{align}
+下面的一些公式出自Andrew Ng的机器学习讲义，这里证明一下。
+\begin{align}
+\nabla_AtrAB &= B^T\\
+\nabla_{A^T}f(A) &= (\nabla_Af(A))^T\\
+\nabla_{A}trABA^TC &= CAB+C^TAB^T\\
+\nabla_{A}|A|&=|A|(A^{-1})^T
+\end{align}
+\proof
+(1)\qquad $(\nabla_AtrAB)_{ij}=\frac{\partial trAB}{\partial a_{ij}}=\frac{\partial \sum_m\sum_ka_{mk}b_{km}}{\partial a_{ij}}$，只有当$m=i,k=j$时才有$a_{ij}$的系数，所以$(\nabla_AtrAB)_{ij}=b_{ji}$，即证。
+
+(2)\qquad $(\nabla_{A^T}f(A))_{ij}=\frac{\partial f(A)}{\partial a_{ji}}$，即证。
+
+(3)\qquad $trABA^TC=\sum_m\sum_k\sum_t\sum_s a_{mk}b_{kt}a_{st}c_{sm}$，所以
+\begin{align}
+(\nabla_{A}trABA^TC)_{ij} &= \frac{\partial \sum_m\sum_k\sum_t\sum_s a_{mk}b_{kt}a_{st}c_{sm}}{\partial a_{ij}} \notag \\
+&=\sum_m\sum_k\sum_t\sum_s \frac{\partial a_{mk}}{\partial a_{ij}}b_{kt}a_{st}c_{sm}+
+\sum_m\sum_k\sum_t\sum_s a_{mk}b_{kt}\frac{\partial a_{st}}{\partial a_{ij}}c_{sm} \notag
+\end{align}
+左边，令$m=i,k=j$，右边，令$s=i, t=j$，
+\begin{align}
+(\nabla_{A}trABA^TC)_{ij}
+&=\sum_t\sum_s b_{jt}a_{st}c_{si}+\sum_m\sum_k a_{mk}b_{kj}c_{im} \notag\\
+&=\sum_t\sum_s b_{jt}a_{st}c_{si}+\sum_m\sum_k c_{im}a_{mk}b_{kj} \notag\\
+&=(BA^TC)_{ji}+(CAB)_{ij} \notag\\
+&=(C^TAB^T+CAB)_{ij}\notag
+\end{align}
 \section{非线性规划}
 
 \section{泛函分析}
@@ -62,4 +110,4 @@ $$\parallel f+g \parallel_p \le \parallel f \parallel_p + \parallel g \parallel_
 $$(\sum_{k=1}^n|x_k+y_k|^p)^{\frac{1}{p}} \le (\sum_{k=1}^n|x_k|^p)^{\frac{1}{p}}(\sum_{k=1}^{n}|y_k|^p)^{\frac{1}{p}}$$
 
 
- 
+
