@@ -48,6 +48,29 @@ $$x_{k+1}=x_{k}-H^{-1}(x_{k})\nabla_{x}f(x_{k})$$
 牛顿法中Hessian矩阵求逆比较复杂，所以实际中会考虑用一个近似的正定对称矩阵来代替Hessian矩阵，这就是拟牛顿法。不同的替代方法形成了不同的拟牛顿法。
 
 \subsubsection{拟牛顿条件}
+首先将函数$f(x)$在第$k$次迭代点处泰勒展开
+$$f(x)=f(x_k)+(x-x_k)\nabla_{x}f(x_k)+\frac{1}{2}(x-x_k)^TH(x_k)(x-x_{k})$$
+求其此时的梯度
+$$\nabla f(x) = \nabla f(x_{k}) + (x-x_{k})H(x_{k})$$
+令$x=x_{k+1}$，
+$$\nabla f(x_{k+1}) - \nabla f(x_{k}) = (x_{k+1}-x_{k})H(x_{k})$$
+左边是梯度的变化，右边$(x_{k+1}-x{k})$是自变量的变化，分别记为
+\begin{align}
+g_{k} &= \nabla f(x_{k+1}) - \nabla f(x_{k}) \notag \\
+\delta_{k} &= x_{k+1}-x{k} \notag
+\end{align}
+得到拟牛顿条件
+\begin{equation}
+g_{k} = H_{k}\delta_{k} 
+\end{equation}
+或
+\begin{equation}
+H_{k}^{-1}g_{k} = \delta_{k} 
+\end{equation}
+
+拟牛顿法选择$G_{k} \approx H_{k}^{-1}$，或者$B_{k} \approx H_{k}$。而且，尽量使得近似矩阵的更新方式为迭代更新
+$$G_{k+1}=G_{k}+\Delta G_{k}$$
+一般令$G_0 = I$为单位对角阵，所以只需要找到$\Delta G_{k}$即可。
 \subsubsection{DFP算法}
 \section{矩阵分析（matrix analysis）}
 \subsection{迹(Trace)和导数(matrix derivatives)}
