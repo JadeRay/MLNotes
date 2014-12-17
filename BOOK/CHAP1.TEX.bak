@@ -12,6 +12,10 @@
 %\end{tcolorbox}}
 %\setlength{\fboxrule}{1pt}\setlength{\fboxsep}{4pt}
 
+\section{最优化问题}
+\subsection{原始问题}
+\subsection{拉格朗日对偶问题}
+
 \section{梯度下降法（gradient descent）}
 梯度下降法或者最速下降法（steepest descent）是求解无约束最优化问题的方法。特点是实现起来比较简单。其原理是如果函数$f(x)$在点$a$处可微且有定义，那么函数$f(x)$在$a$点沿着梯度的反方向，即$-\nabla f(a)$，下降最快。
 
@@ -19,16 +23,32 @@
 $$x_{n+1} = x_n - \alpha\nabla f(x_n)$$
 直到$x_n$的值不再发生变化，或者变化很小，此时，$x_n$等于或者接近$f(x)$的极小值。$\alpha$称为学习率（learning rate）。$\alpha$值过大，可能会在最小值附近振荡。$\alpha$值过小，可能学习的时间比较长。同时，$\alpha$值的选取可以是预先设定的固定值，也可以是根据解更新的情况变化的值。
 
-
 梯度下降法的一个问题在于，能否得到最优解取决于初始值的选取。
-
 \section{牛顿法和拟牛顿法}
 \subsection{牛顿法（Newton Method）}
+牛顿法，或牛顿-拉夫逊法（Newton-Raphson Method）也是求解无约束优化问题的常用方法。牛顿法是二阶收敛的算法（不仅考虑梯度方向，同时考虑梯度的梯度），而梯度下降法是一阶收敛的，因此牛顿法的收敛速度比梯度下降快。换句话说，牛顿法用二次曲面来拟合当前所在位置的局部曲面，然后按照曲率最大的方向下降。而梯度法是用一个平面去拟合局部曲面，然后按照平面的法向量的方向下降。但是一次迭代的代价比较高，因为需要计算矩阵的逆。
+
+考虑无约束的最优化问题
+$$\mathop{\min}\limits_{x\in \mathbb{R}^n} f(x)$$
+假设$f(x)$有二阶连续偏导数，且设第$k$次迭代的解为$x_k$，将$f(x)$在点$x_k$处进行二阶泰勒展开
+$$f(x)=f(x_k)+(x-x_k)f^{\prime}(x_k)+\frac{1}{2}(x-x_k)^2f^{\prime\prime}(x_k)$$
+函数$f(x)$在下次迭代点$x_{k+1}$处取得极值的必要条件是$f^{\prime}(x_{k+1})=0$，即
+$$f^{\prime}(x)|_{x_{k+1}}=f^{\prime}(x_k)+(x_{k+1}-x_{k})f^{\prime\prime}(x_{k})=0$$
+解上式得到
+$$x_{k+1}=x_{k}-\frac{f^{\prime}(x_{k})}{f^{\prime\prime}(x_{k})}$$
+迭代停止的条件可以设定为$f^{\prime}(x_{k})<\epsilon$。
+
+当$x$是向量的时候，其一阶导数要修改成梯度的形式，二阶导数修改成其Hessian矩阵，即
+$$f(x)=f(x_k)+(x-x_k)\nabla_{x}f(x_k)+\frac{1}{2}(x-x_k)^TH(x_k)(x-x_{k})$$
+当$H(x_{k})$是正定矩阵时，$f(x)$的极值为极小值。其更新公式是
+$$x_{k+1}=x_{k}-H^{-1}(x_{k})\nabla_{x}f(x_{k})$$
+迭代终止的条件$\nabla_xf(x_{k})<\epsilon$.
 
 \subsection{拟牛顿法（Quasi Newton Method）}
+牛顿法中Hessian矩阵求逆比较复杂，所以实际中会考虑用一个近似的正定对称矩阵来代替Hessian矩阵，这就是拟牛顿法。不同的替代方法形成了不同的拟牛顿法。
 
 \section{矩阵分析（matrix analysis）}
-\subsection{矩阵导数(matrix derivatives)}
+\subsection{迹(Trace)和导数(matrix derivatives)}
 令$f:\mathbb{R}^{m\times n}\mapsto \mathbb{R}$表示将$m\times n$（$m$-by-$n$）矩阵映射为实数的函数。定义$f$对矩阵$\bm{A}$的导数
 $$\nabla_{\bm{A}}f(\bm{A})=\begin{pmatrix}
                             \noalign{\vskip2pt}
@@ -80,7 +100,7 @@ traA&=atrA
 &=(BA^TC)_{ji}+(CAB)_{ij} \notag\\
 &=(C^TAB^T+CAB)_{ij}\notag
 \end{align}
-\section{非线性规划}
+
 
 \section{泛函分析}
 

@@ -12,6 +12,10 @@
 %\end{tcolorbox}}
 %\setlength{\fboxrule}{1pt}\setlength{\fboxsep}{4pt}
 
+\section{最优化问题}
+\subsection{原始问题}
+\subsection{拉格朗日对偶问题}
+
 \section{梯度下降法（gradient descent）}
 梯度下降法或者最速下降法（steepest descent）是求解无约束最优化问题的方法。特点是实现起来比较简单。其原理是如果函数$f(x)$在点$a$处可微且有定义，那么函数$f(x)$在$a$点沿着梯度的反方向，即$-\nabla f(a)$，下降最快。
 
@@ -41,7 +45,10 @@ $$x_{k+1}=x_{k}-H^{-1}(x_{k})\nabla_{x}f(x_{k})$$
 迭代终止的条件$\nabla_xf(x_{k})<\epsilon$.
 
 \subsection{拟牛顿法（Quasi Newton Method）}
+牛顿法中Hessian矩阵求逆比较复杂，所以实际中会考虑用一个近似的正定对称矩阵来代替Hessian矩阵，这就是拟牛顿法。不同的替代方法形成了不同的拟牛顿法。
 
+\subsubsection{拟牛顿条件}
+\subsubsection{DFP算法}
 \section{矩阵分析（matrix analysis）}
 \subsection{迹(Trace)和导数(matrix derivatives)}
 令$f:\mathbb{R}^{m\times n}\mapsto \mathbb{R}$表示将$m\times n$（$m$-by-$n$）矩阵映射为实数的函数。定义$f$对矩阵$\bm{A}$的导数
@@ -95,7 +102,7 @@ traA&=atrA
 &=(BA^TC)_{ji}+(CAB)_{ij} \notag\\
 &=(C^TAB^T+CAB)_{ij}\notag
 \end{align}
-\section{非线性规划}
+
 
 \section{泛函分析}
 
