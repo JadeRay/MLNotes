@@ -12,3 +12,40 @@
 %\end{tcolorbox}}
 %\setlength{\fboxrule}{1pt}\setlength{\fboxsep}{4pt}
 
+\section{贝叶斯公式}
+\textbf{划分}\quad 设$S$为实验$E$的样本空间，$B_1,B_2,\cdots,B_n$为$E$的一组事件，若\\
+(1)$B_iB_j=\o, i\ne j, i,j=1,2,\cdots, n$\\
+(2)$B_1\cup B_2\cup \cdots \cup B_n = S$\\
+则称$B_1,B_2, \cdots, B_n$为样本空间$S$的一个\textbf{划分}。
+
+\textbf{全概率公式} \quad 设实验$E$的样本空间为$S$，$A$为$E$的事件，$B_1,B_2,\cdots,B_n$为$S$的一组划分，且$P(B_i)>0,i=1,2,\cdots,n$，则
+$$P(A)=\sum_{i=1}^{n}P(A|B_i)$$
+称为\textbf{全概率公式}。
+
+\textbf{贝叶斯公式} \quad 设实验$E$的样本空间为$S$，$A$为$E$的事件，$B_1,B_2,\cdots,B_n$为$S$的一组划分，且$P(A)>0,P(B_i)>0,i=1,2,\cdots,n$，则
+$$P(B_i|A)=\frac{P(A|B_i)P(B_i)}{P(A)}=\frac{P(A|B_i)P(B_i)}{\sum_{i=1}^{n}P(A|B_i)}$$
+称为\textbf{贝叶斯公式}。
+
+其中，$P(A), P(B_i)$分别称为先验概率（prior probability）。$P(A|B_i),P(B_i|A)$称为后验概率（posterior probability）。
+
+\section{模型}
+朴素贝叶斯法（naive Bayes）之所以被称为朴素的，是因为其包含有一些朴素的假设：类条件独立假设。
+
+假设$D$是训练元组及其分类标号的集合。特征向量表示为$X=\{x_1,x_2,\cdots,x_n\}$，其中$x_1,x_2,\cdots,x_n$为$n$个属性的取值。假设有$m$个类，$C_1,C_2,\cdots,C_m$。给定元组$X$，朴素贝叶斯分类法将$X$分给后验概率最大的类。即，$X$属于$C_i$类，当且仅当
+$$P(C_i|X)>P(C_j|X), j=1,2,\cdots,m, i\ne j$$
+则这个分类过程等价于最大化后验概率$P(C_i|X)$。由贝叶斯公式得
+$$\mathop{\max}\limits_i P(C_i|X)=\frac{P(X|C_i)P(C_i)}{P(X)}$$
+其中，$P(X)$对所有分类都是一样的，$P(C_i)$如果做等概率假设，即$P(C_1)=P(C_2)=\cdots=P(C_m)$，则上式等价于
+$$\mathop{\max}\limits_i P(X|C_i)$$
+否则，用训练样本里面每个分类出现的频次作为其先验概率估计值，即$P(C_i)=\frac{freq(C_i)}{|D|}$，则最优化问题等价于
+$$\mathop{\max}\limits_i P(X|C_i)P(C_i)$$
+
+下面考虑$P(X|C_i)$的计算方法。为了简化计算量，可以做\textbf{类条件独立}的朴素假设，即属性之间不存在依赖关系，则
+$$P(X|C_i)=\prod_{k=1}^{n}P(x_k|C_i)=P(x_1|C_i)P(x_2|C_i)\cdots P(x_n|C_i)$$
+这样，求$P(X|C_i)$的问题就转化为求属性$x_k$在分类$C_i$中出现频次的问题了。此时，需要区分属性取值是离散的，还是连续的。\\
+(1)如果属性$k$的取值是离散的，则有$P(x_k|C_i)=\frac{freq(<x_k,C_i>)}{freq(C_i)}$。\\
+(2)如果属性$k$的取值是连续的，假定连续值属性的取值$x_k \backsim \mathcal{N}(\mu, \sigma)$，则定义
+$$g(x,\mu,\sigma)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$
+同时，有
+$$P(x_k|C_i)=g(x_k,\mu_{C_i},\sigma_{C_i})$$
+$\mu_{C_i}$和$\sigma_{C_i}$分别表示$C_i$类中属性$k$的均值和标准差。

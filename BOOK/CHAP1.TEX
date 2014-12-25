@@ -44,6 +44,7 @@ $$f(x)=f(x_k)+(x-x_k)\nabla_{x}f(x_k)+\frac{1}{2}(x-x_k)^TH(x_k)(x-x_{k})$$
 $$x_{k+1}=x_{k}-H^{-1}(x_{k})\nabla_{x}f(x_{k})$$
 迭代终止的条件$\nabla_xf(x_{k})<\epsilon$.
 
+当初始点离极值点较远时，牛顿法可能不收敛，因为此时由Hessian矩阵的逆矩阵和梯度规定的牛顿方向不一定是下降方向。
 \subsection{拟牛顿法（Quasi Newton Method）}
 牛顿法中Hessian矩阵求逆比较复杂，所以实际中会考虑用一个近似的正定对称矩阵来代替Hessian矩阵，这就是拟牛顿法。不同的替代方法形成了不同的拟牛顿法。
 
@@ -57,21 +58,77 @@ $$\nabla f(x_{k+1}) - \nabla f(x_{k}) = (x_{k+1}-x_{k})H(x_{k})$$
 左边是梯度的变化，右边$(x_{k+1}-x{k})$是自变量的变化，分别记为
 \begin{align}
 g_{k} &= \nabla f(x_{k+1}) - \nabla f(x_{k}) \notag \\
-\delta_{k} &= x_{k+1}-x{k} \notag
+\delta_{k} &= x_{k+1}-x_{k} \notag
 \end{align}
 得到拟牛顿条件
 \begin{equation}
-g_{k} = H_{k}\delta_{k} 
+g_{k} = H_{k}\delta_{k}
 \end{equation}
 或
 \begin{equation}
-H_{k}^{-1}g_{k} = \delta_{k} 
+H_{k}^{-1}g_{k} = \delta_{k}
 \end{equation}
 
 拟牛顿法选择$G_{k} \approx H_{k}^{-1}$，或者$B_{k} \approx H_{k}$。而且，尽量使得近似矩阵的更新方式为迭代更新
 $$G_{k+1}=G_{k}+\Delta G_{k}$$
-一般令$G_0 = I$为单位对角阵，所以只需要找到$\Delta G_{k}$即可。
+且$G_{k}$满足拟牛顿条件
+\begin{equation}
+G_{k+1}g_{k}=\delta_{k}
+\end{equation}
+一般令$G_0 = I$为单位阵，所以只需要找到$\Delta G_{k}$即可。
 \subsubsection{DFP算法}
+DFP算法最早由William C. Davidon于1959年提出，后由Roger Fletcher和Michael J.D. Powell发展和完善。DFP算法令校正矩阵为
+$$\Delta G_{k} = \frac{\delta_{k}\delta_{k}^{T}}{\delta_{k}^{T}g_{k}}-\frac{G_{k}g_{k}g_{k}^{T}G_{k}}{g_{k}^{T}G_{k}g_{k}}$$
+构造过程主要的规则在于保证如果初始矩阵$G_{0}$正定，那么每个$G_{k}$都是正定。
+
+DFP算法
+
+输入：目标函数$f(x)$，梯度$\nabla f(x)$，精度要求$\epsilon$
+
+输出：$f(x)$的极小值点$x^{\star}$ \\
+（1）选定初始点$x_0$，取$G_0$为正定对称矩阵（单位阵），置$k=0$ \\
+（2）计算$\nabla f(x_k)$，若$\| \nabla f(x_k) \|< \epsilon$，令$x^{\star}=x_k$，停止计算\\
+（3）令$p_k=-G_k\nabla f(x_k)$\\
+（4）一维搜索：求$\lambda_k$使得
+$$f(x_k+\lambda_k p_k)=\mathop{\min}\limits_{\lambda \ge 0}f(x_k+\lambda p_k)$$
+（5）令$x_{k+1}=x_{k}+\lambda_k p_k$\\
+（6）计算$\nabla f(x_{k+1})$，若$\| \nabla f(x_{k+1}) \|< \epsilon$，令$x^{\star}=x_{k+1}$，停止计算；否则，按$G_{k+1}=G_{k}+\Delta G_{k}$计算$G_{k+1}$\\
+（7）置$k=k+1$，转（3）
+
+\subsubsection{BFGS算法}
+BFGS算法（Broyden-Fletcher-Goldfarb-Shanno）是最流行的拟牛顿法。DFP用一个正定矩阵来近似$H^{-1}$，BFGS用一个正定矩阵来近似$H$，其表示如下
+\begin{align}
+B_{k+1} &= B_k + \Delta B_k\\
+\Delta B_k & = \frac{g_kg_k^T}{g_k^T\delta_k}-\frac{B_k\delta_k\delta_k^TB_k}{\delta_k^TB_k\delta_k}
+\end{align}
+构造的核心也是满足如果初始矩阵$B_0$是正定的，那么迭代过程中的每一个$B_k$都是正定的。
+
+BFGS算法
+
+输入：目标函数$f(x)$，梯度$\nabla f(x)$，精度$\epsilon$
+
+输出：$f(x)$的极小值点$x^{\star}$\\
+（1）选定初始点$x_0$，取$B_0$为正定对称矩阵（单位阵），置$k=0$ \\
+（2）计算$\nabla f(x_k)$，若$\| \nabla f(x_k) \|< \epsilon$，令$x^{\star}=x_k$，停止计算\\
+（3）由$B_kp_k=-\nabla f(x_k)$求出$p_k$\\
+（4）一维搜索：求$\lambda_k$使得
+$$f(x_k+\lambda_k p_k)=\mathop{\min}\limits_{\lambda \ge 0}f(x_k+\lambda p_k)$$
+（5）令$x_{k+1}=x_{k}+\lambda_k p_k$\\
+（6）计算$\nabla f(x_{k+1})$，若$\| \nabla f(x_{k+1}) \|< \epsilon$，令$x^{\star}=x_{k+1}$，停止计算；否则，按$B_{k+1}=B_{k}+\Delta B_{k}$计算$B_{k+1}$\\
+（7）置$k=k+1$，转（3）
+
+令$G_k=B_k^{-1}$，对$B_{k+1}=B_k+\Delta B_k$运用两次Sherman-Morrison公式有
+$$G_{k+1}=(I-\frac{\delta_k g_k^T}{\delta_k^T g_k})G_k(I-\frac{\delta_k g_k^T}{\delta_k^T g_k})^T+\frac{\delta_k g_k^T}{\delta_k^T g_k}$$
+称为BFGS算法关于$G_k$的迭代公式。
+
+Sherman-Morrison公式：假设$A$是$n$阶可逆矩阵，$u$，$v$是$n$维向量，且$A+uv^T$也是可逆矩阵，则
+$$(A+uv^T)^{-1}=A^{-1}-\frac{A^{-1}uv^TA^{-1}}{1+v^TA^{-1}u}$$
+
+记DFP关于$G_k$的迭代公式得到的$G_{k+1}$为$G^{DFP}$，由BFGS得到的记为$G^{BFGS}$，它们都满足拟牛顿公式，且其线性组合
+$$G_{k+1}=\alpha G^{DFP} + (1-\alpha)G^{BFGS}$$
+也满足拟牛顿条件，而且是正定是。其中$0 \le \alpha \le 1$。这样得到的一类拟牛顿法称为Broyden类算法。
+
+实际在使用的时候使用的是LBFGS算法（Limited-memory-BFGS）。有很成熟的开源实现，直接调用即可。
 \section{矩阵分析（matrix analysis）}
 \subsection{迹(Trace)和导数(matrix derivatives)}
 令$f:\mathbb{R}^{m\times n}\mapsto \mathbb{R}$表示将$m\times n$（$m$-by-$n$）矩阵映射为实数的函数。定义$f$对矩阵$\bm{A}$的导数
@@ -125,9 +182,6 @@ traA&=atrA
 &=(BA^TC)_{ji}+(CAB)_{ij} \notag\\
 &=(C^TAB^T+CAB)_{ij}\notag
 \end{align}
-
-
-\section{泛函分析}
 
 \section{常用不等式}
 \subsection{柯西不等式（Cauchy Inequality）}
