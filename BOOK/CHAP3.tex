@@ -5,40 +5,4 @@
 
 
 
-\section{二项逻辑斯谛回归}
-逻辑斯谛回归（logistic regression）是分类模型，跟线性回归模型有相同的输入，但是其输出是离散值。但是，之所以叫“回归”是因为它依然采用线性回归的算法来预测$x$与$y$之间的关系。也因此，需要限制模型中$y$值的输出，令
-$$h_{\theta}(x)=g(\theta^Tx)=\frac{1}{1+e^{-\theta^Tx}}$$
-其中
-$$g(z)=\frac{1}{e^{-z}}$$
-称为逻辑斯谛函数（logistic function），或者S形曲线（sigmoid curve）。
 
-为了推导方便，首先给出$g(z)$的导数
-\[g^{\prime}(z)=g(z)(1-g(z))\]
-
-设
-\begin{align}
-P(y=1|x;\theta) &= h_{\theta}(x) \notag \\
-P(y=0|x;\theta) *= 1-h_{\theta}(x) \notag
-\end{align}
-或者简写成
-\[p(y|x;\theta)=(h_{\theta}(x))^{y}(1-h_{\theta}(x))^{1-y}\]
-其对数似然函数
-\begin{align}
-l(\theta) &=\log\prod_{i=1}^{m}p(y^{(i)}|x^{(i)};\theta)=\sum_{i=1}^{m}(y^{(i)}\log h_{\theta}(x^{(i)})+(1-y^{(i)})\log (1-h_{\theta}(x^{(i)})))\notag \\
-&=\sum_{i=1}^{m}(y^{(i)}h_{\theta}(x^{(i)})+\log (1-h_{\theta}(x^{(i)})))\notag
-\end{align}
-其中，$m$是训练样本的个数。对$\theta$求导，得
-$$\frac{\partial l(\theta)}{\partial \theta}=\sum_{i=1}^{m}(y^{(i)}-h_{\theta}(x^{(i)}))x^{(i)}$$
-则对于单条训练样本的更新公式是
-$$\theta := \theta + \alpha (y^{(i)}-h_{\theta}(x^{(i)}))x^{(i)}$$
-注意，之所以是$+$号，是因为所求的最优化问题是似然函数的最大化，也即按照梯度的方向增加。
-
-这个更新公式跟LMS（least mean squares）更新准则一样。也即，更新的幅度由学习率以及特征向量和误差的乘积决定。
-
-\section{多项逻辑斯谛回归}
-逻辑斯谛回归其实是建立了逻辑斯谛概率模型之后依据似然函数最大化准备建立的回归模型，其学习算法一般是梯度下降或者牛顿法。多项逻辑斯谛回归的概率模型可以表述为：如果离散随机变量$Y$的取值集合是$\{1,2,\cdots, K\}$，那么多项逻辑斯谛回归模型是
-\begin{align}
-P(Y=k|x;\theta)&=\frac{e^{\theta^Tx}}{1+\sum_{i=1}^{K-1}e^{\theta^Tx}},k=1,2,\cdots, K-1 \\
-P(Y=K|x;\theta)&=\frac{1}{1+\sum_{i=1}^{K-1}e^{\theta^Tx}},k=K
-\end{align}
-其中，$x,\theta \in \mathbb{R}^{n+1}$.
