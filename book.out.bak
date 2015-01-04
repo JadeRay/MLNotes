@@ -9,34 +9,54 @@
 \BOOKMARK [3][-]{subsubsection.1.3.2.1}{1.3.2.1 拟牛顿条件}{subsection.1.3.2}% 9
 \BOOKMARK [3][-]{subsubsection.1.3.2.2}{1.3.2.2 DFP算法}{subsection.1.3.2}% 10
 \BOOKMARK [3][-]{subsubsection.1.3.2.3}{1.3.2.3 BFGS算法}{subsection.1.3.2}% 11
-\BOOKMARK [1][-]{section.1.4}{1.4 矩阵分析（matrix analysis）}{chapter.1}% 12
-\BOOKMARK [2][-]{subsection.1.4.1}{1.4.1 迹\(Trace\)和导数\(matrix derivatives\)}{section.1.4}% 13
-\BOOKMARK [1][-]{section.1.5}{1.5 常用不等式}{chapter.1}% 14
-\BOOKMARK [2][-]{subsection.1.5.1}{1.5.1 柯西不等式（Cauchy Inequality）}{section.1.5}% 15
-\BOOKMARK [2][-]{subsection.1.5.2}{1.5.2 赫尔德不等式（Hlder Inequality）}{section.1.5}% 16
-\BOOKMARK [2][-]{subsection.1.5.3}{1.5.3 闵可夫斯基不等式（Minkowski Inequality）}{section.1.5}% 17
-\BOOKMARK [0][-]{chapter.2}{ 第2章 回归}{}% 18
-\BOOKMARK [1][-]{section.2.1}{2.1 线性回归}{chapter.2}% 19
-\BOOKMARK [2][-]{subsection.2.1.1}{2.1.1 直接求解}{section.2.1}% 20
-\BOOKMARK [2][-]{subsection.2.1.2}{2.1.2 牛顿法（Newton's Method）}{section.2.1}% 21
-\BOOKMARK [2][-]{subsection.2.1.3}{2.1.3 批处理梯度下降法（batch gradient descent）}{section.2.1}% 22
-\BOOKMARK [2][-]{subsection.2.1.4}{2.1.4 随机梯度下降法（stochastic gradient descent）}{section.2.1}% 23
-\BOOKMARK [1][-]{section.2.2}{2.2 局部加权线性回归（LWR）}{chapter.2}% 24
-\BOOKMARK [1][-]{section.2.3}{2.3 Logistic回归}{chapter.2}% 25
-\BOOKMARK [2][-]{subsection.2.3.1}{2.3.1 二项逻辑斯谛回归}{section.2.3}% 26
-\BOOKMARK [2][-]{subsection.2.3.2}{2.3.2 多项逻辑斯谛回归}{section.2.3}% 27
-\BOOKMARK [1][-]{section.2.4}{2.4 广义线性模型}{chapter.2}% 28
-\BOOKMARK [2][-]{subsection.2.4.1}{2.4.1 指数分布族（the exponential family）}{section.2.4}% 29
-\BOOKMARK [0][-]{chapter.3}{ 第3章 贝叶斯法}{}% 30
-\BOOKMARK [1][-]{section.3.1}{3.1 贝叶斯公式}{chapter.3}% 31
-\BOOKMARK [1][-]{section.3.2}{3.2 朴素贝叶斯法}{chapter.3}% 32
-\BOOKMARK [2][-]{subsection.3.2.1}{3.2.1 模型}{section.3.2}% 33
-\BOOKMARK [2][-]{subsection.3.2.2}{3.2.2 实现}{section.3.2}% 34
-\BOOKMARK [0][-]{chapter.4}{ 第4章 决策树}{}% 35
-\BOOKMARK [0][-]{chapter.5}{ 第5章 最大熵}{}% 36
-\BOOKMARK [0][-]{chapter.6}{ 第6章 支持向量机}{}% 37
-\BOOKMARK [0][-]{chapter.7}{ 第7章 提升方法}{}% 38
-\BOOKMARK [0][-]{chapter.8}{ 第8章 EM方法}{}% 39
-\BOOKMARK [1][-]{section.8.1}{8.1 Jensen不等式}{chapter.8}% 40
-\BOOKMARK [0][-]{chapter.9}{ 第9章 隐马尔可夫模型}{}% 41
-\BOOKMARK [0][-]{chapter*.2}{ 参考文献}{}% 42
+\BOOKMARK [1][-]{section.1.4}{1.4 机器学习概论}{chapter.1}% 12
+\BOOKMARK [2][-]{subsection.1.4.1}{1.4.1 生成模型与判别模型}{section.1.4}% 13
+\BOOKMARK [0][-]{chapter.2}{ 第2章 回归}{}% 14
+\BOOKMARK [1][-]{section.2.1}{2.1 线性回归}{chapter.2}% 15
+\BOOKMARK [2][-]{subsection.2.1.1}{2.1.1 直接求解}{section.2.1}% 16
+\BOOKMARK [2][-]{subsection.2.1.2}{2.1.2 牛顿法（Newton's Method）}{section.2.1}% 17
+\BOOKMARK [2][-]{subsection.2.1.3}{2.1.3 批处理梯度下降法（batch gradient descent）}{section.2.1}% 18
+\BOOKMARK [2][-]{subsection.2.1.4}{2.1.4 随机梯度下降法（stochastic gradient descent）}{section.2.1}% 19
+\BOOKMARK [1][-]{section.2.2}{2.2 局部加权线性回归（LWR）}{chapter.2}% 20
+\BOOKMARK [1][-]{section.2.3}{2.3 Logistic回归}{chapter.2}% 21
+\BOOKMARK [2][-]{subsection.2.3.1}{2.3.1 二项逻辑斯谛回归}{section.2.3}% 22
+\BOOKMARK [2][-]{subsection.2.3.2}{2.3.2 多项逻辑斯谛回归}{section.2.3}% 23
+\BOOKMARK [1][-]{section.2.4}{2.4 广义线性模型}{chapter.2}% 24
+\BOOKMARK [2][-]{subsection.2.4.1}{2.4.1 指数分布族（the exponential family）}{section.2.4}% 25
+\BOOKMARK [2][-]{subsection.2.4.2}{2.4.2 构造GLMs}{section.2.4}% 26
+\BOOKMARK [3][-]{subsubsection.2.4.2.1}{2.4.2.1 最小二乘法（Ordinary Least Square）}{subsection.2.4.2}% 27
+\BOOKMARK [3][-]{subsubsection.2.4.2.2}{2.4.2.2 Logistic Regression}{subsection.2.4.2}% 28
+\BOOKMARK [3][-]{subsubsection.2.4.2.3}{2.4.2.3 Softmax Regression}{subsection.2.4.2}% 29
+\BOOKMARK [2][-]{subsection.2.4.3}{2.4.3 总结}{section.2.4}% 30
+\BOOKMARK [0][-]{chapter.3}{ 第3章 生成算法}{}% 31
+\BOOKMARK [1][-]{section.3.1}{3.1 高斯判别分析（Gaussian Discriminant Analysis）}{chapter.3}% 32
+\BOOKMARK [2][-]{subsection.3.1.1}{3.1.1 多元正态分布（Multivariate Normal Distribution）}{section.3.1}% 33
+\BOOKMARK [2][-]{subsection.3.1.2}{3.1.2 高斯判别分析（GDA）}{section.3.1}% 34
+\BOOKMARK [2][-]{subsection.3.1.3}{3.1.3 高斯判别分析与logistic回归的对比}{section.3.1}% 35
+\BOOKMARK [1][-]{section.3.2}{3.2 朴素贝叶斯法}{chapter.3}% 36
+\BOOKMARK [2][-]{subsection.3.2.1}{3.2.1 贝叶斯公式}{section.3.2}% 37
+\BOOKMARK [2][-]{subsection.3.2.2}{3.2.2 朴素贝叶斯法}{section.3.2}% 38
+\BOOKMARK [3][-]{subsubsection.3.2.2.1}{3.2.2.1 模型}{subsection.3.2.2}% 39
+\BOOKMARK [3][-]{subsubsection.3.2.2.2}{3.2.2.2 实现}{subsection.3.2.2}% 40
+\BOOKMARK [0][-]{chapter.4}{ 第4章 决策树}{}% 41
+\BOOKMARK [0][-]{chapter.5}{ 第5章 最大熵}{}% 42
+\BOOKMARK [0][-]{chapter.6}{ 第6章 支持向量机}{}% 43
+\BOOKMARK [0][-]{chapter.7}{ 第7章 提升方法}{}% 44
+\BOOKMARK [0][-]{chapter.8}{ 第8章 EM方法}{}% 45
+\BOOKMARK [1][-]{section.8.1}{8.1 Jensen不等式}{chapter.8}% 46
+\BOOKMARK [0][-]{chapter.9}{ 第9章 隐马尔可夫模型}{}% 47
+\BOOKMARK [1][-]{section.9.1}{9.1 模型}{chapter.9}% 48
+\BOOKMARK [1][-]{section.9.2}{9.2 概率计算问题}{chapter.9}% 49
+\BOOKMARK [2][-]{subsection.9.2.1}{9.2.1 直接计算}{section.9.2}% 50
+\BOOKMARK [2][-]{subsection.9.2.2}{9.2.2 前向算法（forward algorithm）}{section.9.2}% 51
+\BOOKMARK [2][-]{subsection.9.2.3}{9.2.3 后向算法（backward algorithm）}{section.9.2}% 52
+\BOOKMARK [1][-]{section.9.3}{9.3 学习问题}{chapter.9}% 53
+\BOOKMARK [1][-]{section.9.4}{9.4 预测问题}{chapter.9}% 54
+\BOOKMARK [0][-]{chapter.10}{ 第10章 附录}{}% 55
+\BOOKMARK [1][-]{section.10.1}{10.1 矩阵分析（matrix analysis）}{chapter.10}% 56
+\BOOKMARK [2][-]{subsection.10.1.1}{10.1.1 迹\(Trace\)和导数\(matrix derivatives\)}{section.10.1}% 57
+\BOOKMARK [1][-]{section.10.2}{10.2 常用不等式}{chapter.10}% 58
+\BOOKMARK [2][-]{subsection.10.2.1}{10.2.1 柯西不等式（Cauchy Inequality）}{section.10.2}% 59
+\BOOKMARK [2][-]{subsection.10.2.2}{10.2.2 赫尔德不等式（Hlder Inequality）}{section.10.2}% 60
+\BOOKMARK [2][-]{subsection.10.2.3}{10.2.3 闵可夫斯基不等式（Minkowski Inequality）}{section.10.2}% 61
+\BOOKMARK [0][-]{chapter*.2}{ 参考文献}{}% 62

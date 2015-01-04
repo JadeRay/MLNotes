@@ -175,6 +175,11 @@ b(y) &= \frac{1}{\sqrt{2\pi}}e^{-\frac{y^2}{2}}\notag
 
 如果要考虑$\sigma$的话，需要用到GLMs的更为一般的模型
 \begin{equation}
-p(y;\eta, \tau)=b(a,\tau)exp(\frac{\eta^TT(y)-a(\eta))}{c(\tau)})
+p(y;\eta, \tau)=b(a,\tau)exp(\frac{\eta^TT(y)-a(\eta)}{c(\tau)})
 \end{equation}
 其中，$\eta=(\mu, \sigma)\in \mathbb{R}^2$，$\tau$称为离差参数（dispersion parameter），对于高斯分布来说，$c(\tau)=\sigma^2$。
+
+\subsection{构造GLMs}
+构造GLMs有三个假设：
+1.$y|x;\theta \sim ExponentialFamily(\eta)$，即给定特征向量$x$和参数$\theta$，输出$y$符合以$\eta$为参数的指数分布族
+2.

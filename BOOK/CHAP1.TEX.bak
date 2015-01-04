@@ -131,11 +131,4 @@ $$G_{k+1}=\alpha G^{DFP} + (1-\alpha)G^{BFGS}$$
 实际在使用的时候使用的是LBFGS算法（Limited-memory-BFGS）。有很成熟的开源实现，直接调用即可。
 
 
-\section{机器学习概论}
-
-\subsection{生成模型与判别模型}
-判别模型（discriminative model）是给定输入$X$，要求预测的输出$Y$的类型。其方法是通过训练数据来学习决策函数$f(x)$或者条件概率分布$p(y|x)$来构造预测的模型。
-
-生成模型（generative model）是通过学习联合分布$p(x,y)$或者$p(x|y)$以及$p(y)$来得到给定$x$的$y$的后验概率$p(y|x)=\frac{p(x,y)}{p(y)}=\frac{p(x|y)p(y)}{p(y)}$。
-
 
