@@ -52,22 +52,24 @@
 \BOOKMARK [2][-]{subsection.6.6.1}{6.6.1 非线性分类问题}{section.6.6}% 52
 \BOOKMARK [2][-]{subsection.6.6.2}{6.6.2 核（Kernel）}{section.6.6}% 53
 \BOOKMARK [2][-]{subsection.6.6.3}{6.6.3 常用核函数}{section.6.6}% 54
-\BOOKMARK [0][-]{chapter.7}{ 第7章 提升方法}{}% 55
-\BOOKMARK [0][-]{chapter.8}{ 第8章 EM方法}{}% 56
-\BOOKMARK [1][-]{section.8.1}{8.1 Jensen不等式}{chapter.8}% 57
-\BOOKMARK [0][-]{chapter.9}{ 第9章 隐马尔可夫模型}{}% 58
-\BOOKMARK [1][-]{section.9.1}{9.1 模型}{chapter.9}% 59
-\BOOKMARK [1][-]{section.9.2}{9.2 概率计算问题}{chapter.9}% 60
-\BOOKMARK [2][-]{subsection.9.2.1}{9.2.1 直接计算}{section.9.2}% 61
-\BOOKMARK [2][-]{subsection.9.2.2}{9.2.2 前向算法（forward algorithm）}{section.9.2}% 62
-\BOOKMARK [2][-]{subsection.9.2.3}{9.2.3 后向算法（backward algorithm）}{section.9.2}% 63
-\BOOKMARK [1][-]{section.9.3}{9.3 学习问题}{chapter.9}% 64
-\BOOKMARK [1][-]{section.9.4}{9.4 预测问题}{chapter.9}% 65
-\BOOKMARK [0][-]{chapter.10}{ 第10章 附录}{}% 66
-\BOOKMARK [1][-]{section.10.1}{10.1 矩阵分析（matrix analysis）}{chapter.10}% 67
-\BOOKMARK [2][-]{subsection.10.1.1}{10.1.1 迹\(Trace\)和导数\(matrix derivatives\)}{section.10.1}% 68
-\BOOKMARK [1][-]{section.10.2}{10.2 常用不等式}{chapter.10}% 69
-\BOOKMARK [2][-]{subsection.10.2.1}{10.2.1 柯西不等式（Cauchy Inequality）}{section.10.2}% 70
-\BOOKMARK [2][-]{subsection.10.2.2}{10.2.2 赫尔德不等式（Hlder Inequality）}{section.10.2}% 71
-\BOOKMARK [2][-]{subsection.10.2.3}{10.2.3 闵可夫斯基不等式（Minkowski Inequality）}{section.10.2}% 72
-\BOOKMARK [0][-]{chapter*.2}{ 参考文献}{}% 73
+\BOOKMARK [1][-]{section.6.7}{6.7 SMO算法}{chapter.6}% 55
+\BOOKMARK [2][-]{subsection.6.7.1}{6.7.1 坐标上升法（Coordinate Ascent）}{section.6.7}% 56
+\BOOKMARK [0][-]{chapter.7}{ 第7章 提升方法}{}% 57
+\BOOKMARK [0][-]{chapter.8}{ 第8章 EM方法}{}% 58
+\BOOKMARK [1][-]{section.8.1}{8.1 Jensen不等式}{chapter.8}% 59
+\BOOKMARK [0][-]{chapter.9}{ 第9章 隐马尔可夫模型}{}% 60
+\BOOKMARK [1][-]{section.9.1}{9.1 模型}{chapter.9}% 61
+\BOOKMARK [1][-]{section.9.2}{9.2 概率计算问题}{chapter.9}% 62
+\BOOKMARK [2][-]{subsection.9.2.1}{9.2.1 直接计算}{section.9.2}% 63
+\BOOKMARK [2][-]{subsection.9.2.2}{9.2.2 前向算法（forward algorithm）}{section.9.2}% 64
+\BOOKMARK [2][-]{subsection.9.2.3}{9.2.3 后向算法（backward algorithm）}{section.9.2}% 65
+\BOOKMARK [1][-]{section.9.3}{9.3 学习问题}{chapter.9}% 66
+\BOOKMARK [1][-]{section.9.4}{9.4 预测问题}{chapter.9}% 67
+\BOOKMARK [0][-]{chapter.10}{ 第10章 附录}{}% 68
+\BOOKMARK [1][-]{section.10.1}{10.1 矩阵分析（matrix analysis）}{chapter.10}% 69
+\BOOKMARK [2][-]{subsection.10.1.1}{10.1.1 迹\(Trace\)和导数\(matrix derivatives\)}{section.10.1}% 70
+\BOOKMARK [1][-]{section.10.2}{10.2 常用不等式}{chapter.10}% 71
+\BOOKMARK [2][-]{subsection.10.2.1}{10.2.1 柯西不等式（Cauchy Inequality）}{section.10.2}% 72
+\BOOKMARK [2][-]{subsection.10.2.2}{10.2.2 赫尔德不等式（Hlder Inequality）}{section.10.2}% 73
+\BOOKMARK [2][-]{subsection.10.2.3}{10.2.3 闵可夫斯基不等式（Minkowski Inequality）}{section.10.2}% 74
+\BOOKMARK [0][-]{chapter*.2}{ 参考文献}{}% 75

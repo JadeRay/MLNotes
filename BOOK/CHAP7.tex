@@ -92,7 +92,7 @@ L(w,b,\alpha)=\frac{1}{2}\|w\|^2-\sum_{i=1}^{m}\alpha_i [y^{(i)}(w^Tx^{(i)}+b)-1
 （1）先求$\theta_D(\alpha)=\mathop{\min}\limits_{w,b} L(w,b,\alpha)$。令
 \begin{align}
 \nabla_w L(w,b,\alpha) &= w-\sum_{i=1}^m \alpha_i y^{(i)}x^{(i)}=0 \notag\\
-\nabla_b L(w,b,\alpha) &=\sum_{i=1}^m \alpha_i y^{(i)}=0 \notag 
+\nabla_b L(w,b,\alpha) &=\sum_{i=1}^m \alpha_i y^{(i)}=0 \notag
 \end{align}
 解得
 \begin{align}
@@ -200,7 +200,7 @@ $$f(x)=sign(\sum_{i=1}^m \alpha_i^\ast y^{(i)}\langle \phi(x^{(i)}), \phi(x) \ra
 在希尔伯特空间中，变化$\phi$完全是通过内积的形式$\langle \phi(x^{(i)}),\phi(x^{(j)}) \rangle$和$\langle \phi(x^{(i)}),\phi(x) \rangle$出现，因此可以考虑使用一个函数代替$\phi$的内积形式$\langle \phi(\bullet),\phi(\bullet) \rangle$，这个函数称为核函数，定义如下
 \[K(x,x^\prime)=\langle \phi(x),\phi(x^\prime) \rangle\]
 
-内积实际上描述的是向量之间的相似度（因为内积可以同时表征向量之间的长度差、向量之间的距离和向量之间的夹角）。在将原空间映射为希尔伯特空间时，向量之间的相似度同时映射到希尔伯特空间。但是映射后的希尔伯特空间可能维数非常高（可能是无穷维，比如采用高斯核函数时，映射函数映射后的希尔伯特空间是无穷维的），而采用核技巧，又将希尔伯特空间中的内积运算转化为原空间中的代数运算。这样有效的降低了运算的复杂度。注意，核函数$K(x,x^\prime)$要保持内积所表征的向量之间的相似度，即当$x$与$x^\ast$相似时（比如平行），$K(x,x^\prime)$会很大。但是当$x$和$x^\ast$不相似时（比如正交），$K(x,x^\prime)$会很小。
+内积实际上描述的是向量之间的相似度（因为内积可以同时表征向量之间的长度差、向量之间的距离和向量之间的夹角）。在将原空间映射为希尔伯特空间时，向量之间的相似度同时映射到希尔伯特空间。但是映射后的希尔伯特空间可能维数非常高（可能是无穷维，比如采用高斯核函数时，映射函数映射后的希尔伯特空间是无穷维的），而采用核技巧，又将希尔伯特空间中的内积运算转化为原空间中的代数运算。这样有效的降低了运算的复杂度。注意，核函数$K(x,x^\prime)$要保持内积所表征的向量之间的相似度，即当$x$与$x^\prime$相似时（比如平行），$K(x,x^\prime)$会很大。但是当$x$和$x^\prime$不相似时（比如正交），$K(x,x^\prime)$会很小。
 
 为了描述核函数的必要特性，首先定义核矩阵（或者Gram矩阵）。
 \definibox{核矩阵}{给定函数$K(x,x^\prime):\mathbb{R}^n\times \mathbb{R}^n\rightarrow \mathbb{R}$，对任意的$x^{(i)}\in \mathbb{R}^n$，$i=1,2,\cdots,m$，函数$K(x,x^\prime)$对应的核矩阵为
@@ -222,3 +222,23 @@ $$K(x,z)=(x\cdot z+1)^p$$
 2.高斯核函数（Gaussian kernel function）
 $$K(x,z)=exp(-\frac{\|x-z\|^2}{2\sigma^2})$$
 对应的SVM是高斯径向基函数（radial basis function）分类器。
+
+\section{SMO算法}
+SVM的学习问题可以形式化为求解凸二次规划的问题。这样的问题有全局最优解。使用（拟）牛顿法和梯度法都可以求解。但是当训练样本的数量很大时，很多算法都变得很低效。1998年，Platt提出了序列最小化算法（SMO算法）有效的解决了这个问题。
+
+\subsection{坐标上升法（Coordinate Ascent）}
+考虑如下的优化问题
+$$\mathop{\max}\limits_{\alpha} W(\alpha_1,\alpha_2,\cdots,\alpha_n)$$
+坐标上升法每次只更新一个参数，如下
+
+loop until convergence \{\\
+\indent \indent for $i = 1$ to $m$ \{\\
+\indent \indent \indent $\alpha_i = \mathop{\argmax}\limits_{\alpha_i} W(\alpha_1,\alpha_2,\cdots,\alpha_n)$\\
+\indent \indent \}\\
+\indent \}
+
+下图显示了当只有两个参数时坐标上升法的运行过程
+\begin{center}
+\includegraphics[width=3.0in,height=1.75in]{book/pig_coordinate_ascent.jpg}
+\end{center}
+因为每次只更新一个参数，所以运行的轨迹是与坐标轴平行的。
