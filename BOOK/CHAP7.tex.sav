@@ -1,0 +1,121 @@
+\chapter{支持向量机}
+\thispagestyle{empty}
+
+\setlength{\fboxrule}{1pt}\setlength{\fboxsep}{4pt}
+%\setlength{\fboxrule}{0pt}\setlength{\fboxsep}{0cm}
+%\shadowbox{
+%\begin{tcolorbox}[arc=0mm,colback=white,colframe=darkblue,title=学习目标与要求]
+%\kai\textcolor{darkblue}{1.~~了解科学计算的一般过程．}\\
+%\kai\textcolor{darkblue}{2.~~了解数值计算方法的研究内容和特点．}\\
+%\kai\textcolor{darkblue}{3.~~理解数值计算误差的有关概念．}\\
+%\kai\textcolor{darkblue}{4.~~掌握数值计算误差的控制方法．}
+%\end{tcolorbox}}
+%\setlength{\fboxrule}{1pt}\setlength{\fboxsep}{4pt}
+
+
+支持向量机首先是一个二类分类模型。这点与感知机类似。其次，它是定义在特征空间上的间隔最大的线性分类器，间隔最大使它有别于感知机。因为根据感知机训练出来的分离超平面可能不是唯一的，例如一些与分离超平面平行的平面可能也满足分类要求。但是，当考虑到间隔最大化时，这样的平面就可以唯一确定下来。这里需要留意的几个概念包括：特征空间和间隔。
+
+支持向量机的分类。按照训练数据是否线性可分，当训练数据线性可分时，通过硬间隔最大化（hard margin maximization），定义线性可分支持向量机（linear support vector machine in linearly separable case）或者硬间隔支持向量机。当训练数据近似线性可分（也即可能有一些噪声点是会导致原数据不是线性可分的）时，通过软间隔最大化（soft margin maximization），定义线性支持向量机（linear support vector machine），或者软间隔支持向量机。当训练数据线性不可分（也即分离超平面可能是超曲面）时，通过核技巧（kernel trick）和软间隔最大化，定义非线性支持向量机（non-linear support vector machine）。
+
+在支持向量机学习中，拉格朗日对偶法之所以会发生特殊的作用还在于，对偶表示之后数据仅作为Gram矩阵的项出现，而不需要通过单个属性出现。类似地，在决策函数的对偶表示里仅需要与测试点输入的内积。
+
+支持向量机也被有些人认为是现存最好的监督学习算法。
+
+\section{模型}
+首先定义支持向量机的输出$y \in \{-1,1\}$。
+
+其次定义支持向量机的参数，将之前一直使用的$\theta$拆分成法向量$w$和截距$b$的形式，支持向量机的训练目的即得到分离超平面（separating hyperplane）$w^Tx+b$。
+
+最后，SVM的判别函数
+$$h_{w,b}(x)=g(w^Tx+b)$$
+其中
+\[g(z)=\left\{
+\begin{array}{rcl}
+1 & , & z \ge 0 \\
+-1 & , & z < 0
+\end{array}
+\right.
+\]
+\section{函数间隔和几何间隔（functional and geometric margins）}
+训练样本$(x^{(i)}, y^{(i)})$函数间隔定义为
+$$\hat\gamma^{(i)}=y^{(i)}(w^Tx^{(i)}+b)$$
+不难看出，恒有$\hat\gamma^{(i)}\ge 0$。
+
+所有训练样本与分离超平面之间的函数间隔的最小值定义为
+$$\hat\gamma = \mathop{\min}\limits_{i=1,2\cdots,m} \hat\gamma^{(i)}$$
+
+函数间隔可以通过等比例增大$w,b$来增大。比如令$w=2w,b=2b$，则有$\hat\gamma^{(i)}=2\hat\gamma^{(i)}$。所以需要引入几何间隔的概念。
+
+函数间隔实际上并不是点到平面的距离。点到平面的距离称为几何间隔，定义为
+$$\gamma^{(i)}=y^{(i)}((\frac{w}{\|w\|})^Tx^{(i)}+\frac{b}{\|w\|})$$
+同时，定义几何间隔的最小值
+$$\gamma = \mathop{\min}\limits_{i=1,2\cdots,m} \gamma^{(i)}$$
+几何间隔不会随着$w,b$的变化而变化，因为只要平面本身没有变，点到平面的距离是不会随着平面的表达方式的变化而变化的。
+
+函数间距与几何间距的关系。
+\begin{align}
+\gamma^{(i)}&=\frac{\hat\gamma^{(i)}}{\|w\|}\notag \\
+\gamma&=\frac{\hat\gamma}{\|w\|}\notag
+\end{align}
+这个关系对于简化最优化的目标公式有用。
+
+\section{SVM模型}
+按照几何间隔最大话，定义SVM的最优化模型
+\begin{alignat}{2}
+\mathop{\max}\limits_{w,b}\quad & \gamma &{}& \nonumber\\
+\mbox{s.t.}\quad
+&y^{(i)}((\frac{w}{\|w\|})^Tx^{(i)}+\frac{b}{\|w\|})\ge \gamma, &\quad& i=1,2,\cdots,m \nonumber
+\end{alignat}
+引入函数间隔与几何间隔的关系，将约束条件变成线性的
+\begin{alignat}{2}
+\mathop{\max}\limits_{w,b}\quad & \frac{\hat\gamma}{\|w\|} &{}& \nonumber\\
+\mbox{s.t.}\quad
+&y^{(i)}(w^Tx^{(i)}+b)\ge \hat\gamma, &\quad& i=1,2,\cdots,m \nonumber
+\end{alignat}
+目标函数$\frac{\hat\gamma}{\|w\|}$不是凸函数（non-convex），目前还没有方法来解决这类优化问题。
+
+从前面关于函数间隔的讨论可以看出，函数间隔本身是可以根据$w,b$的变化（缩放）而变化的。也即，函数间隔对最优化问题没有影响，可以直接令$\hat\gamma=1$。这一点也可以通过缩放$w,b$来实现。另一方面，注意到最大化$\frac{1}{\|w\|}$等价于最小化$\|w\|$（为了便于计算，可以使用$\frac{1}{2}\|w\|^2$），所以可以将上面的优化问题改为
+\begin{alignat}{2}
+\mathop{\min}\limits_{w,b}\quad & \frac{1}{2}\|w\|^2 &{}& \tag{SVM1} \label{SVM1}\\
+\mbox{s.t.}\quad
+&y^{(i)}(w^Tx^{(i)}+b)\ge 1, &\quad& i=1,2,\cdots,m \nonumber
+\end{alignat}
+这样转化为一个凸二次规划问题（convex quadratic programming）。
+
+\section{线性可分SVM}
+线性可分支持向量机的模型如\ref{SVM1}所示。求解的方法是首先构造\ref{SVM1}的拉格朗日函数。
+\begin{equation}
+L(w,b,\alpha)=\frac{1}{2}\|w\|^2-\sum_{i=1}^{m}\alpha_i [y^{(i)}(w^Tx^{(i)}+b)-1] \label{LagSVM1}
+\end{equation}
+注意，先将\ref{SVM1}中的约束条件改成$\le 0$的形式，然后应用拉格朗日乘子法。$w,b$是目标函数的参数，$\alpha$是拉格朗日乘子，$m$是训练样本的个数。
+
+（1）先求$\theta_D(\alpha)=\mathop{\min}\limits_{w,b} L(w,b,\alpha)$。令
+\begin{align}
+\nabla_w L(w,b,\alpha) &= w-\sum_{i=1}^m \alpha_i y^{(i)}x^{(i)}=0 \notag\\
+\nabla_b L(w,b,\alpha) &=\sum_{i=1}^m \alpha_i y^{(i)}=0 \notag 
+\end{align}
+解得
+\begin{align}
+& w = \sum_{i=1}^m \alpha_i y^{(i)}x^{(i)} \notag \\
+& \sum_{i=1}^m \alpha_i y^{(i)} =0 \notag
+\end{align}
+将上式代入\ref{LagSVM1}中，得到
+\begin{align}
+L(w,b,\alpha) &=\frac{1}{2}\sum_{i=1}^m\sum_{j=1}^m \alpha_i\alpha_j y^{(i)}y^{(j)}x^{(i)}x^{(j)}-\sum_{i=1}^{m}\alpha_i [y^{(i)}((\sum_{i=j}^m \alpha_j y^{(j)}x^{(j)})x^{(i)}+b)]+\sum_{i=1}^m \alpha_i \notag\\
+&= -\frac{1}{2}\sum_{i=1}^m\sum_{j=1}^m \alpha_i\alpha_j y^{(i)}y^{(j)}x^{(i)}x^{(j)}+\sum_{i=1}^m \alpha_i \notag
+\end{align}
+
+（2）求对偶问题关于$\alpha$的最优解
+\begin{alignat}{2}
+\mathop{\max}\limits_{\alpha}\quad & W(\alpha)=-\frac{1}{2}\sum_{i=1}^m\sum_{j=1}^m \alpha_i\alpha_j y^{(i)}y^{(j)}<x^{(i)},x^{(j)}>+\sum_{i=1}^m \alpha_i &{}& \notag\\
+\mbox{s.t.}\quad
+&\alpha_i\ge 0, i=1,2,\cdots,m  \nonumber \\
+&\sum_{i=1}^m \alpha_i y^{(i)} =0 \nonumber
+\end{alignat}
+
+\section{线性SVM}
+
+\section{非线性SVM}
+
+
+

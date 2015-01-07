@@ -12,10 +12,89 @@
 %\end{tcolorbox}}
 %\setlength{\fboxrule}{1pt}\setlength{\fboxsep}{4pt}
 
+\section{凸函数}
+\definibox{凸组合}{设$x_1,x_2,\cdots,x_m \in \mathbb{R}^n$，称$x$是$x_1,x_2,\cdots,x_m$的一个凸组合，如果存在满足$\sum_{i=1}^m \lambda_i =1$的非负的$\lambda_1,\lambda_2,\cdots,\lambda_m$使得
+$$x=\sum_{i=1}^m \lambda_ix_i$$
+}
+\definibox{凸集}{集合$S\subset \mathbb{R}^n$是凸集的充要条件是$S$中任意若干点的任一凸组合仍属于$S$。}
+\definibox{凸函数}{设$S\subset \mathbb{R}^n$是非空凸集，$f$是定义在$S$上的函数。称$f$是定义在$S$上的凸函数，如果对$\forall x_1,x_2 \in S, \lambda\in (0,1)$，都有
+$$f(\lambda x_1+(1-\lambda)x_2)\le \lambda f(x_1)+(1-\lambda)f(x_2)$$
+称$f$为$S$上的严格凸函数，如果当$x_1\ne x_2$时，上式中的不等号严格成立。
+}
+
+在二维平面中，凸函数是那种在函数上方所形成的点集是凸集的函数。事实上，凸函数更广泛的定义不一定是可微的。同时，所有的线性函数（linear）和仿射函数（affine）都是凸函数。仿射函数是定义为$f(x)=A^Tx+B$的函数，跟线性函数一样，只不过多了个截距项$B$。
+
+\theorebox{凸函数的充要条件}{设$S$为非空开凸集，$f(x)$是$S$上可微函数，则$f(x)$是凸函数的充要条件是，对$\forall x^\ast \in S$，都有
+$$f(x)\ge f(x^\ast)+\nabla f(x^\ast)^T(x-x^\ast), \forall x\in S$$
+类似的，$f(x)$是严格凸函数的充要条件是
+$$f(x)> f(x^\ast)+\nabla f(x^\ast)^T(x-x^\ast), \forall x^\ast \ne x\in S$$
+}
+
 \section{最优化问题}
 \subsection{原始问题}
-\subsection{拉格朗日对偶问题}
+假设$f(x),c_i(x),h_j(x)$是定义在$\mathbb{R}^n$上的连续可微函数。则最优化问题
+\begin{alignat}{2}
+\mathop{\min}\limits_{x\in \mathbb{R}^n}\quad & f(x)          &{}    & \tag{C1} \label{OPPrimal}\\
+\mbox{s.t.}\quad                              & c_i(x) \le 0, &\quad & i=1,2,\cdots,k \tag{C2}  \label{C2}\\
+                                              & h_j(x) = 0,   &\quad & j=1,2,\cdots,l \tag{C3} \label{C3}
+\end{alignat}
+称为原始问题。
 
+定义广义拉格朗日函数（generalized Lagrange function）
+\[
+L(x,\alpha, \beta)= f(x)+\sum_{i=1}^k \alpha_ic_i(x)+\sum_{j=1}^l \beta_jh_j(x)
+\]
+$\alpha_i \ge 0,\beta_j$称为拉格朗日乘子（Lagrange multipliers）。考虑等式
+\[
+\theta_P(x)=\mathop{\max}\limits_{\alpha,\beta;\alpha_i\ge 0}L(x,\alpha, \beta)
+\]
+下标$P$表示原始（primal）问题。假设某个$x$不满足原始的约束条件\ref{C2}或者\ref{C3}，也即存在某个$i$，使得$c_i(x) >0$ 或者$h_i(x) \ne 0$，那么总能找到一个$\alpha_i$或者$\beta_i$，使得
+$$\theta_P(x)=\mathop{\max}\limits_{\alpha,\beta;\alpha_i\ge 0}L(x,\alpha, \beta)=\infty$$
+相反的，如果约束条件满足，那么$\theta_P(x)=f(x)$，也即
+\[
+\theta_P(x)=\left\{
+\begin{array}{ll}
+f(x) & \text{$x$满足约束条件} \\
+\infty & \text{否则}
+\end{array}
+\right.
+\]
+由此可以看出，$\theta_P(x)$在原始问题约束条件满足时与优化目标$f(x)$有相同的值，而当约束条件不满足时，$\theta_P(x)$的值是$\infty$，所以有下列等式
+\[
+\mathop{\min}\limits_{x}\theta_P(x)=\mathop{\min}\limits_{x} \mathop{\max}\limits_{\alpha,\beta;\alpha_i\ge 0}L(x,\alpha, \beta)
+\]
+定义原始问题的最优解
+$$p^{\star} = \mathop{\min}\limits_{x}\theta_P(x)$$
+
+\subsection{拉格朗日对偶问题}
+首先定义
+\[
+\theta_D(\alpha, \beta)=\mathop{\min}\limits_{x}L(x,\alpha, \beta)
+\]
+$D$表示对偶（dual）问题。$\theta_D$其实是$L(x,\alpha, \beta)$关于$x$的最小值，而这个最小值是以$\alpha,\beta$为参数的。对这个最小值进行极大化，得到对偶问题
+$$\mathop{\max}\limits_{\alpha, \beta;\alpha_i\ge 0}\theta_D(\alpha, \beta)=\mathop{\max}\limits_{\alpha, \beta;\alpha_i\ge 0}\mathop{\min}\limits_{x}L(x,\alpha, \beta)$$
+对偶问题跟原始问题在形式上一样，除了max和min的顺序不同。
+
+定义对偶问题的解
+$$d^\star = \mathop{\max}\limits_{\alpha, \beta;\alpha_i\ge 0}\theta_D(\alpha, \beta)$$
+
+\subsection{原始问题与对偶问题的关系及KKT条件}
+容易证明，有
+$$d^\star = \mathop{\max}\limits_{\alpha, \beta;\alpha_i\ge 0}\mathop{\min}\limits_{x}L(x,\alpha, \beta)
+\le \mathop{\min}\limits_{x} \mathop{\max}\limits_{\alpha,\beta;\alpha_i\ge 0}L(x,\alpha, \beta)=p^{\star}$$
+事实上，函数的max min永远不大于函数的min max。
+
+下面描述原始问题与对偶问题解相同的充要条件，也称为Karush-Kuhn-Tucker（KKT）条件。设$x^\ast$是原始问题的解，$\alpha^\ast,\beta^\ast$是对偶问题的解，假设$f(x),c_i(x)$是凸函数，$h_j(x)$是仿射函数，并且不等式约束$c_i(x)$严格可行，即$\exists x(\forall i (c_i(x)<0))$，则原始问题与对偶问题解相同（即$p^\star=d^\star=L(x^\ast,\alpha^\ast,\beta^\ast)$）的充要条件是
+\begin{align}
+\nabla_xL(x^\ast,\alpha^\ast,\beta^\ast) &=0 \tag{KKT1}\\
+\nabla_\alpha L(x^\ast,\alpha^\ast,\beta^\ast) &=0 \tag{KKT2}\\
+\nabla_\beta L(x^\ast,\alpha^\ast,\beta^\ast) &=0 \tag{KKT3}\\
+\alpha_i^\ast c_i(x^\ast) = 0,i&=1,2,\cdots, k \tag{KKT4}\\
+c_i(x^\ast) \le 0,i&=1,2,\cdots, k \tag{KKT5}\\
+\alpha_i^\ast \ge 0, i&=1,2,\cdots, k \tag{KKT6}\\
+h_j(x^\ast) = 0, j &=1,2,\cdots,l \tag{KKT7}
+\end{align}
+条件KKT5称为对偶互补条件（dual complementarity condition）。由此条件可知，当$\alpha_i^\ast > 0$时，$c_i(x^\ast)=0$。在SVM 模型中，此时向量$x^\ast$与分离超平面的函数间隔为1，这种向量称之为支持向量（support vector），因为只有这种向量对模型的训练是有价值的。
 \section{梯度下降法（gradient descent）}
 梯度下降法或者最速下降法（steepest descent）是求解无约束最优化问题的方法。特点是实现起来比较简单。其原理是如果函数$f(x)$在点$a$处可微且有定义，那么函数$f(x)$在$a$点沿着梯度的反方向，即$-\nabla f(a)$，下降最快。
 
@@ -130,5 +209,12 @@ $$G_{k+1}=\alpha G^{DFP} + (1-\alpha)G^{BFGS}$$
 
 实际在使用的时候使用的是LBFGS算法（Limited-memory-BFGS）。有很成熟的开源实现，直接调用即可。
 
+
+\section{机器学习概论}
+
+\subsection{生成模型与判别模型}
+判别模型（discriminative model）是给定输入$X$，要求预测的输出$Y$的类型。其方法是通过训练数据来学习决策函数$f(x)$或者条件概率分布$p(y|x)$来构造预测的模型。
+
+生成模型（generative model）是通过学习联合分布$p(x,y)$或者$p(x|y)$以及$p(y)$来得到给定$x$的$y$的后验概率$p(y|x)=\frac{p(x,y)}{p(y)}=\frac{p(x|y)p(y)}{p(y)}$。
 
 

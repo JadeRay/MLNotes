@@ -50,9 +50,9 @@
 \theoremheaderfont{\hei\rmfamily}
 \theorembodyfont{\song\rmfamily}
 \theoremseparator{~}%帽号 : 改为 ~ 变空格
-\newtheorem{definition}{\indent\color{white}定义}[chapter]
+\newtheorem{definition}{\indent\hei\color{black}定义}[chapter]
 \newtheorem{proposition}{\indent\color{darkblue}命题}[chapter]
-\newtheorem{theorem}{\indent\color{darkblue}定理}[chapter]
+\newtheorem{theorem}{\indent\color{black}定理}[chapter]
 \newtheorem{lemma}{\indent\color{darkblue}引理}[chapter]
 \newtheorem{axiom}{\indent\color{darkblue}公理}[chapter]
 \newtheorem{corollary}{\indent\color{darkblue}推论}[chapter]
@@ -92,10 +92,9 @@
 %==========引理框结束====================================
 
 %==========定理框====================================
-\newcommand{\theorebox}[1]{\vspace{0.3cm}
-\begin{colorboxed}[boxcolor=darkblue,bgcolor=lightblue]
-\vspace{-0.3cm}\theorem #1
-\end{colorboxed}}
+\newcommand{\theorebox}[2]{
+\theorem{\hei(#1)}\quad #2
+}
 %==========定理框结束====================================
 
 %==========推论框====================================
@@ -113,16 +112,9 @@
 %==========性质框结束====================================
 
 %==========定义框====================================
-\newcommand{\definibox}[2]{\vspace{0.3cm}
-\begin{colorboxed}[boxcolor=darkblue,fgcolor=white,bgcolor=darkblue]
-\vspace{-0.4cm}
-\definition\hei\color{white}#1
-\vspace{0.04cm}
-\end{colorboxed}
-\vspace{-0.7cm} \setlength{\fboxsep}{4pt}
-\begin{colorboxed}[boxcolor=darkblue,fgcolor=black,bgcolor=lightblue]
-#2
-\end{colorboxed}\color{black}}
+\newcommand{\definibox}[2]{
+\definition{\hei\color{black}(#1)}\quad \color{black}#2
+}
 %==========定义框结束====================================
 
 %===========================用于中文段落缩进和正文版式======================

@@ -114,14 +114,15 @@
 
 %==========定义框====================================
 \newcommand{\definibox}[2]{\vspace{0.3cm}
-\begin{colorboxed}[boxcolor=darkblue,fgcolor=white,bgcolor=darkblue]
-\vspace{-0.4cm}
-\definition\hei\color{white}#1
-\vspace{0.04cm}
-\end{colorboxed}
-\vspace{-0.7cm} \setlength{\fboxsep}{4pt}
-\begin{colorboxed}[boxcolor=darkblue,fgcolor=black,bgcolor=lightblue]
-#2
+%\begin{colorboxed}[boxcolor=darkblue,fgcolor=white,bgcolor=darkblue]
+%\vspace{-0.2cm}
+%\definition\hei\color{white}#1
+%\vspace{0.04cm}
+%\end{colorboxed}
+
+%\vspace{-0.7cm} \setlength{\fboxsep}{4pt}
+\begin{colorboxed}[boxcolor=darkblue,fgcolor=black,bgcolor=white]
+\definition\hei\color{black}#1\quad#2
 \end{colorboxed}\color{black}}
 %==========定义框结束====================================
 
@@ -136,7 +137,7 @@
 \setcounter{tocdepth}{4}
 %\renewcommand\contentsname{目~~~~录}
 \renewcommand\chaptername{\CJKprechaptername\CJKthechapter\CJKchaptername}
-\titleformat{\chapter}[hang]{\filcenter\hei\sf\color{darkblue}}{\erhao{\color{blueblack}\chaptertitlename}}{20pt}{\erhao}
+\titleformat{\chapter}[hang]{\filcenter\hei\sf\color{darkblue}}{\erhao{\color{darkblue}\chaptertitlename}}{20pt}{\erhao}
 \titlespacing{\chapter}{0pt}{50pt}{40pt}                                          % 标题左边距，上文距，下文距
 \titleformat{\section}[hang]{\filcenter \hei \sf \sihao\color{darkblue}}{\sihao\color{darkblue}\S\ \thesection}{0.5em}{}{}
 \titlespacing{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}         % 标题左边距，上文距，下文距

@@ -221,4 +221,3 @@ $$K(x,z)=(x\cdot z+1)^p$$
 
 2.高斯核函数（Gaussian kernel function）
 $$K(x,z)=exp(-\frac{\|x-z\|^2}{2\sigma^2})$$
-对应的SVM是高斯径向基函数（radial basis function）分类器。

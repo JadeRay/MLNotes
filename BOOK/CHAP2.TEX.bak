@@ -180,6 +180,38 @@ p(y;\eta, \tau)=b(a,\tau)exp(\frac{\eta^TT(y)-a(\eta)}{c(\tau)})
 其中，$\eta=(\mu, \sigma)\in \mathbb{R}^2$，$\tau$称为离差参数（dispersion parameter），对于高斯分布来说，$c(\tau)=\sigma^2$。
 
 \subsection{构造GLMs}
-构造GLMs有三个假设：
-1.$y|x;\theta \sim ExponentialFamily(\eta)$，即给定特征向量$x$和参数$\theta$，输出$y$符合以$\eta$为参数的指数分布族
-2.
+构造GLMs有三个假设：\\
+1.$y|x;\theta \sim ExponentialFamily(\eta)$，即给定特征向量$x$和参数$\theta$，输出$y$符合以$\eta$为参数的指数分布族。\\
+2.给定$x$，目的是要求$T(y)$的期望值，即$h(x)=E[T(y)|x]$。$T(y)$是$y$的充分统计量，一般是$T(y)=y$。\\
+3.自然参数$\eta$和输入$x$之间满足线性关系：$\eta=\theta^Tx$。 
+
+\subsubsection{最小二乘法（Ordinary Least Square）}
+ 考虑到目标变量（target variable）或者响应变量（response variable）$y$是连续的，假定其服从高斯分布，即$y|x;\theta \sim \mathcal{N}(\mu, \sigma^2)$。注意高斯分布的期望是$\mu$，标准差是$\sigma$。 此时，$T(y)=y$，所以
+ \begin{align}
+ h_\theta(x) &= E[T(y)|x;\theta]=E[y|x;\theta] \notag \\
+ &=\mu \notag \\
+ &=\eta \notag \\
+ &=\theta^Tx \notag
+ \end{align}
+ 第一行基于假设2，第二行基于高斯分布的特性，第三行基于假设1，即高斯分布作为指数分布族的一个特例，第四行基于假设3.
+ 
+ \subsubsection{Logistic Regression} 
+ LogisticRegression的输出只有$y\in \{0,1\}$两个值，所以考虑输出满足伯努利分布，即$y|x;\theta \sim Bernoulli(\phi)$，而伯努利分布的期望$E[y|x;\theta]=\phi$，所以有
+ \begin{align}
+  h_\theta(x) &= E[T(y)|x;\theta]=E[y|x;\theta] \notag \\
+ &=\phi \notag \\
+ &=\frac{1}{1+e^{-\eta}} \notag \\
+ &=\frac{1}{1+e^{-\theta^Tx}} \notag
+ \end{align} 
+ 这样就得到了logistic函数$\frac{1}{1+e^{-z}}$。
+ 
+ \subsubsection{Softmax Regression}
+ 考虑一个多类分类问题，假设$y \in \{1,2,\cdots, k\}$，此时可以用多项式分布对$y$进行建模。最终可以得到多元逻辑斯谛回归模型。
+ 
+ \subsection{总结}
+ 从上面可以看出，广义线性模型（GLMs）的作用其实是提供一个统一的方法来实现训练模型的选择。其流程如下所示
+ \begin{align}
+ y|x;\theta \sim GLMs &\rightarrow \text{模型（logistic回归、softmax回归及最小二乘法等）}  \notag \\
+ &\rightarrow \text{由likelihood函数建立最优化模型} \notag \\
+ &\rightarrow \text{参数求解（梯度法、牛顿法等）} \notag
+ \end{align}
