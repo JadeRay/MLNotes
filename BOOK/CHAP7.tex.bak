@@ -92,7 +92,7 @@ L(w,b,\alpha)=\frac{1}{2}\|w\|^2-\sum_{i=1}^{m}\alpha_i [y^{(i)}(w^Tx^{(i)}+b)-1
 （1）先求$\theta_D(\alpha)=\mathop{\min}\limits_{w,b} L(w,b,\alpha)$。令
 \begin{align}
 \nabla_w L(w,b,\alpha) &= w-\sum_{i=1}^m \alpha_i y^{(i)}x^{(i)}=0 \notag\\
-\nabla_b L(w,b,\alpha) &=\sum_{i=1}^m \alpha_i y^{(i)}=0 \notag 
+\nabla_b L(w,b,\alpha) &=\sum_{i=1}^m \alpha_i y^{(i)}=0 \notag
 \end{align}
 解得
 \begin{align}
@@ -133,6 +133,7 @@ f(x)=sign(\sum_{i=1}^m \alpha_i^\ast y^{(i)}\langle x^{(i)}, x \rangle +b)
 \]
 
 注意，只有支持向量的$\alpha>0$，其他向量的$\alpha=0$。也就是说，对于一个新的待分类的点$x$，分类的结果只取决于$x$与支持向量的内积。而支持向量的个数往往比训练集中全部向量的个数小得多，这一点对于支持向量机很重要。
+
 \section{线性SVM}
 当训练样本中存在一些特异点（outlier）时，训练样本可能不是线性可分的。假设去掉特异点之后的训练样本是线性可分的，则可以构造线性SVM。线性不可分意味着某些样本点$(x^{(j)}, y^{(j)})$不满足函数间隔大于等于1的约束条件。为了解决这个问题，可以通过对每个训练样本引入松弛变量$\xi_j\ge 0$，使得函数间隔加上松弛变量大于等于1.这样，约束条件变成
 $$y^{(j)}(w^Tx^{(j)}+b)+\xi_j \ge 1$$
@@ -181,6 +182,11 @@ $$T_\phi=\{(z^{(i)}, y^{(i)})|i=1,2,\cdots,m\}\in (\mathcal{H} \times \mathcal{Y
 
 原问题变为在希尔伯特空间$\mathcal{H}$中求得线性划分超平面$(w^\ast)^Tz+b^\ast=0$，从而导出$\mathbb{R}^n$空间中的分离超曲面$(w^\ast)^T\phi(x)+b^\ast=0$。
 
+希尔伯特空间的定义如下图所示
+\begin{center}
+\includegraphics[width=3.0in,height=1.15in]{book/pig_hilbert_space.jpg}
+\end{center}
+
 在希尔伯特空间$\mathcal{H}$中构造对应分类问题的最优化形式，并应用拉格朗日乘子法（与欧式空间中的拉格朗日乘子法相同，同样需要满足KKT条件），不难得出希尔伯特空间中分类问题的如下对偶形式
 \begin{alignat}{2}
 \mathop{\max}\limits_{\alpha}\quad & W(\alpha)=-\frac{1}{2}\sum_{i=1}^m\sum_{j=1}^m \alpha_i\alpha_j y^{(i)}y^{(j)}\langle \phi(x^{(i)}),\phi(x^{(j)}) \rangle +\sum_{i=1}^m \alpha_i &{}& \notag\\
@@ -200,7 +206,7 @@ $$f(x)=sign(\sum_{i=1}^m \alpha_i^\ast y^{(i)}\langle \phi(x^{(i)}), \phi(x) \ra
 在希尔伯特空间中，变化$\phi$完全是通过内积的形式$\langle \phi(x^{(i)}),\phi(x^{(j)}) \rangle$和$\langle \phi(x^{(i)}),\phi(x) \rangle$出现，因此可以考虑使用一个函数代替$\phi$的内积形式$\langle \phi(\bullet),\phi(\bullet) \rangle$，这个函数称为核函数，定义如下
 \[K(x,x^\prime)=\langle \phi(x),\phi(x^\prime) \rangle\]
 
-内积实际上描述的是向量之间的相似度（因为内积可以同时表征向量之间的长度差、向量之间的距离和向量之间的夹角）。在将原空间映射为希尔伯特空间时，向量之间的相似度同时映射到希尔伯特空间。但是映射后的希尔伯特空间可能维数非常高（可能是无穷维，比如采用高斯核函数时，映射函数映射后的希尔伯特空间是无穷维的），而采用核技巧，又将希尔伯特空间中的内积运算转化为原空间中的代数运算。这样有效的降低了运算的复杂度。注意，核函数$K(x,x^\prime)$要保持内积所表征的向量之间的相似度，即当$x$与$x^\ast$相似时（比如平行），$K(x,x^\prime)$会很大。但是当$x$和$x^\ast$不相似时（比如正交），$K(x,x^\prime)$会很小。
+内积实际上描述的是向量之间的相似度（因为内积可以同时表征向量之间的长度差、向量之间的距离和向量之间的夹角）。在将原空间映射为希尔伯特空间时，向量之间的相似度同时映射到希尔伯特空间。但是映射后的希尔伯特空间可能维数非常高（可能是无穷维，比如采用高斯核函数时，映射函数映射后的希尔伯特空间是无穷维的），而采用核技巧，又将希尔伯特空间中的内积运算转化为原空间中的代数运算。这样有效的降低了运算的复杂度。注意，核函数$K(x,x^\prime)$要保持内积所表征的向量之间的相似度，即当$x$与$x^\prime$相似时（比如平行），$K(x,x^\prime)$会很大。但是当$x$和$x^\prime$不相似时（比如正交），$K(x,x^\prime)$会很小。
 
 为了描述核函数的必要特性，首先定义核矩阵（或者Gram矩阵）。
 \definibox{核矩阵}{给定函数$K(x,x^\prime):\mathbb{R}^n\times \mathbb{R}^n\rightarrow \mathbb{R}$，对任意的$x^{(i)}\in \mathbb{R}^n$，$i=1,2,\cdots,m$，函数$K(x,x^\prime)$对应的核矩阵为
@@ -221,3 +227,61 @@ $$K(x,z)=(x\cdot z+1)^p$$
 
 2.高斯核函数（Gaussian kernel function）
 $$K(x,z)=exp(-\frac{\|x-z\|^2}{2\sigma^2})$$
+对应的SVM是高斯径向基函数（radial basis function）分类器。
+
+\section{SMO算法}
+SVM的学习问题可以形式化为求解凸二次规划的问题。这样的问题有全局最优解。使用（拟）牛顿法和梯度法都可以求解。但是当训练样本的数量很大时，很多算法都变得很低效。1998年，Platt提出了序列最小化算法（SMO算法）有效的解决了这个问题。
+
+\subsection{坐标上升法（Coordinate Ascent）}
+考虑如下的优化问题
+$$\mathop{\max}\limits_{\alpha} W(\alpha_1,\alpha_2,\cdots,\alpha_n)$$
+坐标上升法每次只更新一个参数，如下
+
+loop until convergence \{\\
+\indent \indent for $i = 1$ to $m$ \{\\
+\indent \indent \indent $\alpha_i = \mathop{\argmax}\limits_{\alpha_i} W(\alpha_1,\alpha_2,\cdots,\alpha_n)$\\
+\indent \indent \}\\
+\indent \}
+
+下图显示了当只有两个参数时坐标上升法的运行过程
+\begin{center}
+\includegraphics[width=3.0in,height=1.75in]{book/pig_coordinate_ascent.jpg}
+\end{center}
+因为每次只更新一个参数，所以运行的轨迹是与坐标轴平行的。
+
+\subsection{SMO}
+SMO要求解的问题是
+\begin{alignat}{2}
+\mathop{\max}\limits_{\alpha}\quad & W(\alpha)=-\frac{1}{2}\sum_{i=1}^m\sum_{j=1}^m \alpha_i\alpha_j y^{(i)}y^{(j)}\langle x^{(i)},x^{(j)} \rangle +\sum_{i=1}^m \alpha_i &{}& \notag\\
+\mbox{s.t.}\quad
+&\alpha_i\ge 0, i=1,2,\cdots,m  \nonumber \\
+&\sum_{i=1}^m \alpha_i y^{(i)} =0 \nonumber
+\end{alignat}
+或者表述为
+\begin{alignat}{2}
+\mathop{\min}\limits_{\alpha}\quad & W(\alpha)=\frac{1}{2}\sum_{i=1}^m\sum_{j=1}^m \alpha_i\alpha_j y^{(i)}y^{(j)}\langle x^{(i)},x^{(j)} \rangle - \sum_{i=1}^m \alpha_i &{}& \notag\\
+\mbox{s.t.}\quad
+&\alpha_i\ge 0, i=1,2,\cdots,m  \nonumber \\
+&\sum_{i=1}^m \alpha_i y^{(i)} =0 \nonumber
+\end{alignat}
+注意到$\sum_{i=1}^m \alpha_i y^{(i)} =0$，也即任何一个参数$\alpha_i$都可以表示成其他参数的和的形式。所以单变量的坐标上升法没法直接使用（因为固定其他变量的时候，单变量$\alpha_i$也固定了）。SMO算法采用一次更新两个变量的策略来使用坐标上升法。假设待更新的两个变量为$\alpha_1$和$\alpha_2$，则其他变量看成常数
+\begin{alignat}{2}
+\mathop{\min}\limits_{\alpha_1,\alpha_2}\quad & W(\alpha)=\frac{1}{2}K_{11}\alpha_1^2+\frac{1}{2}K_{22}\alpha_2^2+y^{(1)}y^{(2)}K_{12}\alpha_1\alpha_2-(\alpha_1+\alpha_2) \notag\\
+&\quad +y^{(1)}\alpha_1\sum_{i=3}^m y^{(i)} \alpha_i K_{i1} +y^{(2)}\alpha_2\sum_{i=3}^m y^{(i)} \alpha_i K_{i2} &{}& \notag\\
+\mbox{s.t.}\quad
+&\alpha_1+\alpha_2=-\sum_{i=3}^m \alpha_i y^{(i)}=\zeta, i=1,2,\cdots,m  \nonumber \\
+&0 \le \alpha_i\le C, i=1,2 \nonumber
+\end{alignat}
+其中$K$是核矩阵。两个变量的约束域可以在二维平面上表示出来，由于$\alpha_1,\alpha2\in [0,C]$，所以其约束域是二维平面上的一个矩形，如图所示。
+\begin{center}
+\includegraphics[width=3.0in,height=1.75in]{book/pig_smo_stricted_area.jpg}
+\end{center}
+而$\alpha_1+\alpha_2=\zeta$使得$\alpha_1$，$\alpha_2$落在与对角线平行的直线上（斜率为$\frac{y^{(1)}}{y^{(2)}}=\{-1,1\}$），且相互可以表示，所以可以每次只更新一个变量。
+
+\section{SVM的软件包}
+SVM的著名的软件包：\\
+1、libsvm\\
+homepage:\url{http://www.csie.ntu.edu.tw/~cjlin/libsvm/index.html?js=1#svm-toy-js}\\
+github：\url{https://github.com/cjlin1/libsvm}\\
+2、SVM light\\
+homepage：\url{http://svmlight.joachims.org/}

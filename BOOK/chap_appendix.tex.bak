@@ -4,24 +4,8 @@
 \setlength{\fboxrule}{1pt}\setlength{\fboxsep}{4pt}
 
 \section{线性代数}
-\subsection{空间}
-向量空间（vector space）是定义了加法和标量乘法的非空向量集合$V$，使得如下性质成立（$\mathbb{F}$表示复空间$\mathbb{C}$ 或者实数空间$\mathbb{R}$）：
-\begin{itemize}
-\item 交换性（commutativity）：$\forall u,v\in V,u+v=v+u $
-\item 结合性（associativity）：$\forall u,v,w\in V, a,b\in \mathbb{F}, (u+v)+w=u+(v+w)$ 且$(ab)u=a(bu)$
-\item 加法单位元（additive identity）：$\forall u\in V, \exists 0\in V (u+0=u)$
-\item 加法逆（additive inverse）：$\forall u\in V$，存在唯一的一个$w\in V$，使得$u+w=0$
-\item 乘法单位元（multiplicative identity）：$\forall u\in V,u1=u$
-\item 分配性质（distributive properties）：$\forall u,v\in V, a,b\in \mathbb{F}, a(u+v)=au+av,(a+b)u=au+bu $
-\end{itemize}
-由定义可见，向量空间需要定义标量运算，也即依赖于$\mathbb{F}$。所以一般会说$\mathbb{F}$上的向量空间$V$，比如$\mathbb{R}$上的向量空间$\mathbb{R}^n$，或者$\mathbb{C}$上的向量空间$\mathbb{C}^n$。
+\section{空间}
 
-向量空间只定义了向量的加法，没有定义向量的乘法运算。
-
-各种空间关系总结
-\begin{center}
-\includegraphics[width=3.0in,height=1.15in]{book/pig_hilbert_space.jpg}
-\end{center}
 \section{矩阵分析（matrix analysis）}
 \subsection{迹(Trace)和导数(matrix derivatives)}
 令$f:\mathbb{R}^{m\times n}\mapsto \mathbb{R}$表示将$m\times n$（$m$-by-$n$）矩阵映射为实数的函数。定义$f$对矩阵$\bm{A}$的导数

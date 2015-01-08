@@ -1,7 +1,132 @@
-\chapter{逻辑斯谛回归}
+\chapter{生成算法}
 \thispagestyle{empty}
 
 \setlength{\fboxrule}{1pt}\setlength{\fboxsep}{4pt}
+
+
+\section{高斯判别分析（Gaussian Discriminant Analysis）}
+高斯判别法是生成模型，虽然名字中有“判别”两个字。
+
+\subsection{多元正态分布（Multivariate Normal Distribution）}
+假设$x \sim \mathcal{N}(\mu, \Sigma)$，即$x$服从以$\mu \in \mathbb{R}^{n}$为均值向量（mean vector），$\Sigma\in \mathbb{R}^{n\times n}$ 为协方差矩阵（covariance matrix）的多元高斯分布，则$x$的概率密度函数（PDF）为
+\[
+p(x;\mu, \Sigma)=\frac{1}{(2\pi)^{n/2}|\Sigma|^{1/2}}exp(-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu))
+\]
+
+\subsection{高斯判别分析（GDA）}
+生成模型对每一个分类分别进行建模，即首先做关于分类和不同分类的输入特征的分布的假设
+\begin{align}
+y &\sim Bernoulli(\phi) \notag \\
+x|y=0 &\sim \mathcal{N}(\mu_0, \Sigma) \notag \\
+x|y=1 &\sim \mathcal{N}(\mu_1, \Sigma) \notag
+\end{align}
+由此，参数为$\phi, \Sigma, \mu_0, \mu_1$。注意两个高斯分布虽然有相同的均值向量，但是使用不同的协方差矩阵。
+
+其对数似然函数为
+\begin{align}
+\mathcal{l}(\phi, \mu_0, \mu_1, \Sigma) &= \log \prod_{i=1}^{m}p(x^{(i)},y^{(i)};\phi, \mu_0, \mu_1, \Sigma)\notag \\
+&= \log \prod_{i=1}^{m}p(x^{(i)}|y^{(i)};\mu_0, \mu_1, \Sigma)p(y^{(i)};\phi) \notag
+\end{align}
+解得参数的最大似然估计
+\begin{center}
+\includegraphics[width=2.77in,height=1.75in]{book/pig1.jpg}
+\end{center}
+
+\subsection{高斯判别分析与logistic回归的对比}
+在高斯判别分析中，如果记$p(y=1|x;\phi, \mu_0, \mu_1, \Sigma)$为$x$的函数，则有如下形式
+$$p(y=1|x;\phi, \mu_0, \mu_1, \Sigma)=\frac{1}{1+exp(-\theta^Tx)}$$
+$\theta$是$\phi, \Sigma, \mu_0, \mu_1$的函数。
+
+事实上，
+\[
+\left.
+\begin{array}{r}
+p(x|y=0) \sim \mathcal{N}(\mu_0, \Sigma) \\
+p(x|y=1) \sim \mathcal{N}(\mu_1, \Sigma)
+\end{array}
+\right\}\Rightarrow p(y=1|x)\sim LogitsticRegression
+\]
+反之，不成立；此外，还有
+\[
+\left.
+\begin{array}{r}
+p(x|y=0) \sim \text{Poisson}(\lambda_0) \\
+p(x|y=1) \sim \text{Poisson}(\lambda_1)
+\end{array}
+\right\}\Rightarrow p(y=1|x)\sim LogitsticRegression
+\]
+反之，不成立；更一般的，有
+\[
+\left.
+\begin{array}{r}
+p(x|y=0) \sim \text{ExponentialFamily}(\eta_0) \\
+p(x|y=1) \sim \text{ExponentialFamily}(\eta_1)
+\end{array}
+\right\}\Rightarrow p(y=1|x)\sim LogitsticRegression
+\]
+反之，不成立。
+
+证明一下最后一个公式。显然有
+\begin{align}
+p(y) &= \phi^y(1-\phi)^{1-y} \notag\\
+p(x|y=0) &= b(x)e^{\eta_0^T T(x)-a(\eta_0)} \notag\\
+p(x|y=1) &= b(x)e^{\eta_1^T T(x)-a(\eta_1)} \notag
+\end{align}
+则
+\begin{align}
+p(y=1|x) &= \frac{p(x|y=1)p(y=1)}{p(x|y=1)p(y=1)+p(x|y=0)p(y=0)}  \notag \\
+&=\frac{1}{1+\frac{p(x|y=0)p(y=0)}{p(x|y=1)p(y=1)}} \notag \\
+&=\frac{1}{1+\frac{1-\phi}{\phi}exp(\eta_0^T T(x)-a(\eta_0)-\eta_1^T T(x)+a(\eta_1))} \notag \\
+&=\frac{1}{1+exp[(\eta_0^T T(x)-a(\eta_0)-\eta_1^T T(x)+a(\eta_1))\ln \frac{1-\phi}{\phi}]} \notag
+\end{align}
+
+高斯判别分析事实上包含有比logistic回归更强的假设。高斯判别分析对输入数据分布做了假设，而logistic回归对输入数据符合什么分布，并没有做一般性的假设。所以logistic回归的泛化性能好一些，比高斯判别分析的鲁棒性好。但是高斯判别分析需要的训练数据比logistic回归需要的训练数据要少，也即即使只有少量的训练数据，即使其不完全符合高斯分布，高斯判别分析也能得出很好的分类模型。
+\section{朴素贝叶斯法}
+\subsection{贝叶斯公式}
+\textbf{划分}\quad 设$S$为实验$E$的样本空间，$B_1,B_2,\cdots,B_n$为$E$的一组事件，若\\
+(1)$B_iB_j=\o, i\ne j, i,j=1,2,\cdots, n$\\
+(2)$B_1\cup B_2\cup \cdots \cup B_n = S$\\
+则称$B_1,B_2, \cdots, B_n$为样本空间$S$的一个\textbf{划分}。
+
+\textbf{全概率公式} \quad 设实验$E$的样本空间为$S$，$A$为$E$的事件，$B_1,B_2,\cdots,B_n$为$S$的一组划分，且$P(B_i)>0,i=1,2,\cdots,n$，则
+$$P(A)=\sum_{i=1}^{n}P(A|B_i)$$
+称为\textbf{全概率公式}。
+
+\textbf{贝叶斯公式} \quad 设实验$E$的样本空间为$S$，$A$为$E$的事件，$B_1,B_2,\cdots,B_n$为$S$的一组划分，且$P(A)>0,P(B_i)>0,i=1,2,\cdots,n$，则
+$$P(B_i|A)=\frac{P(A|B_i)P(B_i)}{P(A)}=\frac{P(A|B_i)P(B_i)}{\sum_{i=1}^{n}P(A|B_i)}$$
+称为\textbf{贝叶斯公式}。
+
+其中，$P(A), P(B_i)$分别称为先验概率（prior probability）。$P(A|B_i),P(B_i|A)$称为后验概率（posterior probability）。
+
+\subsection{朴素贝叶斯法}
+\subsubsection{模型}
+朴素贝叶斯法（naive Bayes）之所以被称为朴素的，是因为其包含有一些朴素的假设：类条件独立假设。
+
+假设$D$是训练元组及其分类标号的集合。特征向量表示为$X=\{x_1,x_2,\cdots,x_n\}$，其中$x_1,x_2,\cdots,x_n$为$n$个属性的取值。假设有$m$个类，$C_1,C_2,\cdots,C_m$。给定元组$X$，朴素贝叶斯分类法将$X$分给后验概率最大的类。即，$X$属于$C_i$类，当且仅当
+$$P(C_i|X)>P(C_j|X), j=1,2,\cdots,m, i\ne j$$
+则这个分类过程等价于最大化后验概率$P(C_i|X)$。由贝叶斯公式得
+$$\mathop{\max}\limits_i P(C_i|X)=\frac{P(X|C_i)P(C_i)}{P(X)}$$
+其中，$P(X)$对所有分类都是一样的，$P(C_i)$如果做等概率假设，即$P(C_1)=P(C_2)=\cdots=P(C_m)$，则上式等价于
+$$\mathop{\max}\limits_i P(X|C_i)$$
+否则，用训练样本里面每个分类出现的频次作为其先验概率估计值，即$P(C_i)=\frac{freq(C_i)}{|D|}$，则最优化问题等价于
+$$\mathop{\max}\limits_i P(X|C_i)P(C_i)$$
+
+下面考虑$P(X|C_i)$的计算方法。为了简化计算量，可以做\textbf{类条件独立}的朴素假设，即属性之间不存在依赖关系，则
+$$P(X|C_i)=\prod_{k=1}^{n}P(x_k|C_i)=P(x_1|C_i)P(x_2|C_i)\cdots P(x_n|C_i)$$
+这样，求$P(X|C_i)$的问题就转化为求属性$x_k$在分类$C_i$中出现频次的问题了。此时，需要区分属性取值是离散的，还是连续的。\\
+(1)如果属性$k$的取值是离散的，则有$P(x_k|C_i)=\frac{freq(<x_k,C_i>)}{freq(C_i)}$。\\
+(2)如果属性$k$的取值是连续的，假定连续值属性的取值$x_k \backsim \mathcal{N}(\mu, \sigma)$，则定义
+$$g(x,\mu,\sigma)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$
+同时，有
+$$P(x_k|C_i)=g(x_k,\mu_{C_i},\sigma_{C_i})$$
+$\mu_{C_i}$和$\sigma_{C_i}$分别表示$C_i$类中属性$k$的均值和标准差。
+
+\subsubsection{实现}
+计算概率及其乘积的过程涉及到数据的一些处理。首先是数据平滑问题，有些属性值可能在某类的统计数据中并不出现，这样会导致某一属性的概率值为0，影响结果。实际使用时可以通过对分子分母同时加上一个常数来避免概率为0。
+
+另一问题是数据下溢出的问题，因为涉及到很多小数的乘积。一个解决方法是对概率乘积取自然对数。这样$p_1p_2$ 就可以表示为$\ln p_1+\ln p_2$，取自然对数保证结果的单调性是相同的。
+
+
 
 
 

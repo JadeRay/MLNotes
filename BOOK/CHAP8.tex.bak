@@ -13,7 +13,7 @@
 %\setlength{\fboxrule}{1pt}\setlength{\fboxsep}{4pt}
 
 \section{理论背景}
-\begin{itemize}
-\item Kearns和Valiant：在概率近似正确（probably approximately correct， PAC）学习的框架中，一个概念（一个类），如果存在一个多项式学习算法来学习它，并且正确率很高，那么就称这个概念是强可学习的（strongly learnable）；一个概念如果存在一个多项式学习算法来学习它，并且正确率仅比随机猜测略好，那么就称这个概念是弱可学习的（weakly learnable）。Leslie Valiant因这项工作获得了2010 年的图灵奖。
-\item Schapire证明：强可学习与弱可学习是等价的。Robert Schcapire因这项工作获得了2003年的哥德尔奖。
-\end{itemize}
+\begin{item}
+Kearns和Valiant：在概率近似正确（probably approximately correct， PAC）学习的框架中，一个概念（一个类），如果存在一个多项式学习算法来学习它，并且正确率很高，那么就称这个概念是强可学习的（strongly learnable）；一个概念如果存在一个多项式学习算法来学习它，并且正确率仅比随机猜测略好，那么就称这个概念是弱可学习的（weakly learnable）。Leslie Valiant因这项工作获得了2010年的图灵奖。
+Schapire证明：强可学习与弱可学习是等价的。Robert Schcapire因这项工作获得了2003年的哥德尔奖。
+\end{item}

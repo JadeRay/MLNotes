@@ -133,6 +133,7 @@ f(x)=sign(\sum_{i=1}^m \alpha_i^\ast y^{(i)}\langle x^{(i)}, x \rangle +b)
 \]
 
 注意，只有支持向量的$\alpha>0$，其他向量的$\alpha=0$。也就是说，对于一个新的待分类的点$x$，分类的结果只取决于$x$与支持向量的内积。而支持向量的个数往往比训练集中全部向量的个数小得多，这一点对于支持向量机很重要。
+
 \section{线性SVM}
 当训练样本中存在一些特异点（outlier）时，训练样本可能不是线性可分的。假设去掉特异点之后的训练样本是线性可分的，则可以构造线性SVM。线性不可分意味着某些样本点$(x^{(j)}, y^{(j)})$不满足函数间隔大于等于1的约束条件。为了解决这个问题，可以通过对每个训练样本引入松弛变量$\xi_j\ge 0$，使得函数间隔加上松弛变量大于等于1.这样，约束条件变成
 $$y^{(j)}(w^Tx^{(j)}+b)+\xi_j \ge 1$$
@@ -242,3 +243,40 @@ loop until convergence \{\\
 \includegraphics[width=3.0in,height=1.75in]{book/pig_coordinate_ascent.jpg}
 \end{center}
 因为每次只更新一个参数，所以运行的轨迹是与坐标轴平行的。
+
+\subsection{SMO}
+SMO要求解的问题是
+\begin{alignat}{2}
+\mathop{\max}\limits_{\alpha}\quad & W(\alpha)=-\frac{1}{2}\sum_{i=1}^m\sum_{j=1}^m \alpha_i\alpha_j y^{(i)}y^{(j)}\langle x^{(i)},x^{(j)} \rangle +\sum_{i=1}^m \alpha_i &{}& \notag\\
+\mbox{s.t.}\quad
+&\alpha_i\ge 0, i=1,2,\cdots,m  \nonumber \\
+&\sum_{i=1}^m \alpha_i y^{(i)} =0 \nonumber
+\end{alignat}
+或者表述为
+\begin{alignat}{2}
+\mathop{\min}\limits_{\alpha}\quad & W(\alpha)=\frac{1}{2}\sum_{i=1}^m\sum_{j=1}^m \alpha_i\alpha_j y^{(i)}y^{(j)}\langle x^{(i)},x^{(j)} \rangle - \sum_{i=1}^m \alpha_i &{}& \notag\\
+\mbox{s.t.}\quad
+&\alpha_i\ge 0, i=1,2,\cdots,m  \nonumber \\
+&\sum_{i=1}^m \alpha_i y^{(i)} =0 \nonumber
+\end{alignat}
+注意到$\sum_{i=1}^m \alpha_i y^{(i)} =0$，也即任何一个参数$\alpha_i$都可以表示成其他参数的和的形式。所以单变量的坐标上升法没法直接使用（因为固定其他变量的时候，单变量$\alpha_i$也固定了）。SMO算法采用一次更新两个变量的策略来使用坐标上升法。假设待更新的两个变量为$\alpha_1$和$\alpha_2$，则其他变量看成常数
+\begin{alignat}{2}
+\mathop{\min}\limits_{\alpha_1,\alpha_2}\quad & W(\alpha)=\frac{1}{2}K_{11}\alpha_1^2+\frac{1}{2}K_{22}\alpha_2^2+y^{(1)}y^{(2)}K_{12}\alpha_1\alpha_2-(\alpha_1+\alpha_2) \notag\\
+&\quad +y^{(1)}\alpha_1\sum_{i=3}^m y^{(i)} \alpha_i K_{i1} +y^{(2)}\alpha_2\sum_{i=3}^m y^{(i)} \alpha_i K_{i2} &{}& \notag\\
+\mbox{s.t.}\quad
+&\alpha_1+\alpha_2=-\sum_{i=3}^m \alpha_i y^{(i)}=\zeta, i=1,2,\cdots,m  \nonumber \\
+&0 \le \alpha_i\le C, i=1,2 \nonumber
+\end{alignat}
+其中$K$是核矩阵。两个变量的约束域可以在二维平面上表示出来，由于$\alpha_1,\alpha2\in [0,C]$，所以其约束域是二维平面上的一个矩形，如图所示。
+\begin{center}
+\includegraphics[width=3.0in,height=1.75in]{book/pig_smo_stricted_area.jpg}
+\end{center}
+而$\alpha_1+\alpha_2=\zeta$使得$\alpha_1$，$\alpha_2$落在与对角线平行的直线上（斜率为$\frac{y^{(1)}}{y^{(2)}}=\{-1,1\}$），且相互可以表示，所以可以每次只更新一个变量。
+
+\section{SVM的软件包}
+SVM的著名的软件包：\\
+1、libsvm\\
+homepage:\url{http://www.csie.ntu.edu.tw/~cjlin/libsvm/index.html?js=1#svm-toy-js}\\
+github：\url{https://github.com/cjlin1/libsvm}\\
+2、SVM light\\
+homepage：\url{http://svmlight.joachims.org/}
