@@ -210,11 +210,20 @@ $$G_{k+1}=\alpha G^{DFP} + (1-\alpha)G^{BFGS}$$
 实际在使用的时候使用的是LBFGS算法（Limited-memory-BFGS）。有很成熟的开源实现，直接调用即可。
 
 
-\section{机器学习概论}
+\section{机器学习理论}
 
 \subsection{生成模型与判别模型}
-判别模型（discriminative model）是给定输入$X$，要求预测的输出$Y$的类型。其方法是通过训练数据来学习决策函数$f(x)$或者条件概率分布$p(y|x)$来构造预测的模型。
+判别模型（discriminative model）是给定输入$X$，要求预测的输出$Y$的类型。其方法是通过训练数据来学习决策函数$f(x)$或者条件概率分布$p(y|x)$来构造预测的模型。判别模型有感知机、k近邻、决策树、logistic回归、最大熵、SVM、提升方法和条件随机场。
 
-生成模型（generative model）是通过学习联合分布$p(x,y)$或者$p(x|y)$以及$p(y)$来得到给定$x$的$y$的后验概率$p(y|x)=\frac{p(x,y)}{p(y)}=\frac{p(x|y)p(y)}{p(y)}$。
+生成模型（generative model）是通过数据学习联合分布$p(x,y)$或者$p(x|y)$以及$p(y)$来得到给定$x$的$y$的后验概率$p(y|x)=\frac{p(x,y)}{p(x)}=\frac{p(x|y)p(y)}{p(x)}$。之所以叫生成模型是因为模型表示了给定$x$产生输出$y$的生成关系。生成模型有朴素贝叶斯法和HMM。
 
+生成模型可以得到给定$x$之后各个输出分类$y$的概率，而判别方法直接得到给定$x$之后的输出分类$y$。前者的学习收敛速度快，当样本容量增加时，更快地收敛到真实模型，且对存在隐变量的模型依然有效。后者对隐变量无效，但学习的准确率高。
+
+\subsection{偏差（bias）和方差（variance）}
+
+\subsection{经验风险最小化（ERM）}
+
+\subsection{模型选择（model selection）}
+
+\subsection{特征选择（feature selection）}
 
